@@ -1,0 +1,42 @@
+.showtime{
+    margin-left: auto;
+    margin-right: auto;
+    height: 100vh;
+    width: 80%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+.colorPresenter{
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: larger;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+  flex: 0 0 48%; 
+  box-sizing: border-box;
+
+}
+
+#colorDisplay{
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 0;
+  justify-content: space-between;
+}
+.backToClockButton{
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: larger;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: dodgerblue;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+  flex: 0 0 48%; /* 48% to leave some space between shapes */
+  box-sizing: border-box;
+}

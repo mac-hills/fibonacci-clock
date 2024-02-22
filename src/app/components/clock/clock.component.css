@@ -1,0 +1,89 @@
+.clock-container {
+    position: relative;
+    height: 90vh;
+    aspect-ratio: 1/1;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    margin: 6%;
+    box-sizing: border-box;
+}
+.fib-shapes{
+    border-radius: 50%;
+    box-sizing: border-box;
+    width: 100%;
+    height:100%;;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 1);
+}
+#fib34{
+    top:auto;
+    left:auto;
+}
+#fib21{
+    width: calc(21/34*100%);
+    height:calc(21/34*100%) ;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+#fib13{
+    width: calc(13/21*100%);
+    height:calc(13/21*100%) ;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#fib8{
+    width: calc(8/13*100%);
+    height:calc(8/13*100%) ;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#fib5{
+    width: calc(5/8*100%);
+    height:calc(5/8*100%) ;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+#fib3{
+    width: calc(3/5*100%);
+    height:calc(3/5*100%) ;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+#fib2{
+    width: calc(2/3*100%);
+    height:calc(2/3*100%) ;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#fib1{
+    width: calc(1/2*100%);
+    height:calc(1/2*100%) ;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#fibsec{
+    width: 50px;
+    height: 50px;
+    flex-direction: column;
+    position: absolute;
+    top:0;
+    left:0;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 1);
+}
+

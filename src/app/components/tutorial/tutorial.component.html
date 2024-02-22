@@ -1,0 +1,36 @@
+<div class="showtime" >
+    
+    <h2>Understanding Time with the Fibonacci Clock</h2>
+    <p>The Fibonacci Clock is based on the mathematical sequence created by the Italian mathematician Fibonacci in the 13th century. 
+        Beginning with 1 and 1, each subsequent number is the sum of the two preceding ones. 
+        The clock utilizes the initial terms of this sequence: <strong>1, 1, 2, 3, 5, 8, 13, 21 and 34</strong>.</p>
+    <h3>Shapes</h3>    
+    <p>The display consists of shapes, each sized according to the initial Fibonacci numbers: 1, 1, 2, 3...
+        The smallest shape represents a 1. The largest shape represents 34.
+        The other shapes from small to large represent 2, 3, 5, 8, 13 and 21to 21. 
+    </p>
+    <h3>Calculate time</h3>
+    <h4>Hour</h4>
+    <p>Sum up the values of the shapes depicted in the colors that represent the hour and the shapes that represent hours and minutes.</p>
+    <h4>Minutes</h4>
+    <p>Sum up the values of the shapes depicted in the colors that represent the minutes and the shapes that represent hours and minutes.</p>
+    <h4>Seconds</h4>        
+    <p>Seconds are depicted in a color-changing shape, transitioning every second. Additionally, the background darkens every second, and after a minute passes, it returns to its original lighter state.</p>   
+    <br>
+    <h3>Colors</h3>
+    <div id="colorDisplay">
+        <div (click)="launchColorPicker('colorWhenUsedForHours')" [style.background-color]="clockColors['colorWhenUsedForHours']" id="colorWhenUsedForHours" class="colorPresenter">This color represents hours</div>
+        <div (click)="launchColorPicker('colorWhenUsedForMinutes')" [style.background-color]="clockColors['colorWhenUsedForMinutes']" id="colorWhenUsedForMinutes" class="colorPresenter">This color represents minutes</div>
+        <div (click)="launchColorPicker('colorWhenUsedForHoursAndMinutes')" [style.background-color]="clockColors['colorWhenUsedForHoursAndMinutes']" id="colorWhenUsedForHoursAndMinutes" class="colorPresenter">This color represents hours and minutes</div>
+        <div (click)="launchColorPicker('colorWhenNotUsed')" [style.background-color]="clockColors['colorWhenNotUsed']" id="colorWhenNotUsed" class="colorPresenter">This color indicates that this shape is not used to tell the time</div>
+        <div (click)="launchColorPicker('clockBackGroundColorArrayStartColor')" [style.background-color]="clockColors['clockBackGroundColorArrayStartColor']" id="clockBackGroundColorArrayStartColor" class="colorPresenter">Start color background colors</div>
+        <div (click)="launchColorPicker('clockBackGroundColorArrayEndColor')" [style.background-color]="clockColors['clockBackGroundColorArrayEndColor']" id="clockBackGroundColorArrayEndColor" class="colorPresenter">Last color background colors</div>
+        <div (click)="launchColorPicker('secondsCounterArrayStartColor')" [style.background-color]="clockColors['secondsCounterArrayStartColor']" id="secondsCounterArrayStartColor" class="colorPresenter">Start color seconds counter colors</div>
+        <div (click)="launchColorPicker('secondsCounterArrayEndColor')" [style.background-color]="clockColors['secondsCounterArrayEndColor']" id="secondsCounterArrayEndColor" class="colorPresenter">Last color seconds counter colors</div>
+
+    
+    
+    
+    </div>
+    <button class="backToClockButton" (click)="backToClock()">Back to clock</button>
+</div>
