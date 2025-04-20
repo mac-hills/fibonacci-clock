@@ -1,27 +1,71 @@
-# FibonacciClockResponsive
+# Fibonacci Clock Responsive
+The Fibonacci Clock is a unique and visually stunning clock that uses the Fibonacci sequence to display time. This project is built with Angular and provides a responsive design for seamless use across devices.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
+## Features
 
-## Development server
+- **Fibonacci Sequence-Based Design:** The clock divides the display into rectangles based on the Fibonacci sequence, creating a unique way to tell time.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Responsive Layout:** Works seamlessly on desktops, tablets, and mobile devices.
 
-## Code scaffolding
+- **Customizable:** Built with Angular, making it easy to modify and extend.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
+## Getting Started
+Follow these steps to clone the repository and run the project locally.
 
-## Build
+### Prerequisites
+Make sure you have the following installed on your system:
+- Node.js (version 16 or higher)
+- Angular CLI (version 16.2.10 or higher)
+- Git
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Clone the Repository
+To clone the repository, run the following command in your terminal:
+```javascript  
+git clone https://github.com/mac-hills/fibonacci-clock.git
+```
+### Navigate to the Project Directory
+```javascript
+cd fibonacci-clock
+```
+### Install Dependencies
+Install the required dependencies using npm:
+```javascript
+npm install
+```
+### Run the Development Server
+Start the development server:
+```javascript
+ng serve
+```
+Navigate to http://localhost:4200/ in your browser to view the application. The app will automatically reload if you make changes to the source files.
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Contributing
+Contributions are welcome! If you'd like to contribute to this project:
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix:
+```javascript
+git checkout -b feature-name
+```
+3. Commit your changes:
+```javascript
+git commit -m "Add feature-name"
+```
+4. Push to your branch:
+```javascript
+git push origin feature-name
+```
+5. Open a pull request.
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## License
+This project is open-source and available under the [MIT License](https://opensource.org/license/mit).
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Further Help
+For more information about Angular CLI, check out the [Angular CLI Overview and Command Reference](https://v17.angular.io/cli).
+
