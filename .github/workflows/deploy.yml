@@ -26,7 +26,11 @@ jobs:
 
       - name: Build 🏗️
         run: ng build --base-href "https://mac-hills.github.io/fibonacci-clock/"
-
+      - name: Configure Git 🔧
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
       - name: Deploy 🚀
         run: npx angular-cli-ghpages --dir=dist/fibonacci-clock-responsive --no-silent
         env:
