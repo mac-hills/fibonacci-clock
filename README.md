@@ -3,7 +3,7 @@ The Fibonacci Clock is a unique and visually stunning clock that uses the Fibona
 
 ## Features
 
-- **Fibonacci Sequence-Based Design:** The clock divides the display into rectangles based on the Fibonacci sequence, creating a unique way to tell time.
+- **Fibonacci Sequence-Based Design:** The clock divides the display into cirkels based on the Fibonacci sequence, creating a unique way to tell time.
 
 - **Responsive Layout:** Works seamlessly on desktops, tablets, and mobile devices.
 
