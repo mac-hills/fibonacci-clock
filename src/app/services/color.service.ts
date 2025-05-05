@@ -1,47 +1,14 @@
+// src/app/services/color.service.ts
 import { Injectable } from '@angular/core';
 import { clockColors } from '../resources/color-resources/clockColors';
+import { LocalStorageService } from './local-storage.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ColorService {
-  // Access all clock colors
-  getClockColors() {
-    return clockColors;
-  }
-
-  // Access specific colors
-  getColorWhenUsedForHoursAndMinutes() {
-    return clockColors['colorWhenUsedForHoursAndMinutes'];
-
-  }  
-  
-  getColorWhenUsedForHours() {
-    return clockColors['colorWhenUsedForHours'];
-  }
-
-  getColorWhenUsedForMinutes()  {
-    return clockColors['colorWhenUsedForMinutes'];
-  }
-
-  getColorWhenNotUsed()  {
-    return clockColors['colorWhenNotUsed'];
-  }
-
-  getClockBackgroundColorStart()  {
-    return clockColors['clockBackGroundColorArrayStartColor'];
-  }
-
-  getClockBackgroundColorEnd()  {
-    return clockColors['clockBackGroundColorArrayEndColor'];
-  }
-
-  getSecondsCounterArrayStartColor() {
-    return clockColors['secondsCounterArrayStartColor'];
-  }
-
-  getSecondsCounterArrayEndColor()  {
-    return clockColors['secondsCounterArrayEndColor'];
-  }
+  private readonly CLOCK_COLORS_KEY = 'clockColors';
+  private colors: Record<string, string>;
 
   public currentIndexBackgroundArray = 0;
   public currentIndexSecondsCounterArray = 0;
@@ -50,37 +17,108 @@ export class ColorService {
 
   // generating a colors array for the background color
   public colorsArrayBackGround: string[] = [];
-  clockBackGroundColorArrayStartColor = this.getClockBackgroundColorStart();
-  clockBackGroundColorArrayEndColor = this.getClockBackgroundColorEnd();
-  clockBackGroundColorSteps = 60;
 
   // generating a colors array for the seconds counter
   public colorsArraySecondsCounter: string[] = [];
-  startColorSecondsCounter = this.getSecondsCounterArrayStartColor();
-  endColorSecondsCounter = this.getSecondsCounterArrayEndColor();
-  stepsSecondsCounter = 1;
-  
-  constructor() {
+
+  constructor(private localStorageService: LocalStorageService) {
+    // Load colors from localStorage or use defaults
+    this.colors = this.localStorageService.getItem<Record<string, string>>(
+      this.CLOCK_COLORS_KEY,
+      { ...clockColors }
+    );
+
+    this.regenerateColorArrays();
+  }
+
+  // Access all clock colors
+  getClockColors(): Record<string, string> {
+    return this.colors;
+  }
+
+  // Update a specific color and save to localStorage
+  updateColor(colorKey: string, colorValue: string): void {
+    this.colors[colorKey] = colorValue;
+    this.saveColors();
+    this.regenerateColorArrays();
+  }
+
+  // Save all colors to localStorage
+  saveColors(): void {
+    this.localStorageService.setItem(this.CLOCK_COLORS_KEY, this.colors);
+  }
+
+  // Reset colors to default
+  resetColors(): void {
+    this.colors = { ...clockColors };
+    this.saveColors();
+    this.regenerateColorArrays();
+  }
+
+  // Regenerate color arrays based on current color settings
+  private regenerateColorArrays(): void {
+    const clockBackGroundColorArrayStartColor = this.getClockBackgroundColorStart();
+    const clockBackGroundColorArrayEndColor = this.getClockBackgroundColorEnd();
+    const clockBackGroundColorSteps = 60;
+
+    const startColorSecondsCounter = this.getSecondsCounterArrayStartColor();
+    const endColorSecondsCounter = this.getSecondsCounterArrayEndColor();
+    const stepsSecondsCounter = 1;
+
     this.colorsArrayBackGround = this.generateColorArray(
-      this.clockBackGroundColorArrayStartColor, 
-      this.clockBackGroundColorArrayEndColor, 
-      this.clockBackGroundColorSteps);
+      clockBackGroundColorArrayStartColor,
+      clockBackGroundColorArrayEndColor,
+      clockBackGroundColorSteps
+    );
 
     this.colorsArraySecondsCounter = this.generateColorArray(
-      this.startColorSecondsCounter, 
-      this.endColorSecondsCounter, 
-      this.stepsSecondsCounter);
-    console.log('Seconds Counter Colors:', this.colorsArraySecondsCounter);
+      startColorSecondsCounter,
+      endColorSecondsCounter,
+      stepsSecondsCounter
+    );
   }
-  
-  getColorsArryForBackground(){
+
+  // Access specific colors
+  getColorWhenUsedForHoursAndMinutes(): string {
+    return this.colors['colorWhenUsedForHoursAndMinutes'];
+  }
+
+  getColorWhenUsedForHours(): string {
+    return this.colors['colorWhenUsedForHours'];
+  }
+
+  getColorWhenUsedForMinutes(): string {
+    return this.colors['colorWhenUsedForMinutes'];
+  }
+
+  getColorWhenNotUsed(): string {
+    return this.colors['colorWhenNotUsed'];
+  }
+
+  getClockBackgroundColorStart(): string {
+    return this.colors['clockBackGroundColorArrayStartColor'];
+  }
+
+  getClockBackgroundColorEnd(): string {
+    return this.colors['clockBackGroundColorArrayEndColor'];
+  }
+
+  getSecondsCounterArrayStartColor(): string {
+    return this.colors['secondsCounterArrayStartColor'];
+  }
+
+  getSecondsCounterArrayEndColor(): string {
+    return this.colors['secondsCounterArrayEndColor'];
+  }
+
+  getColorsArryForBackground(): string[] {
     return this.colorsArrayBackGround;
   }
 
-  getColorsArryForSecondsCounterShape(){
+  getColorsArryForSecondsCounterShape(): string[] {
     return this.colorsArraySecondsCounter;
   }
- 
+
   getRandomColor(): string {
     let color = '#';
     for (let i = 0; i < 6; i++) {
@@ -89,25 +127,19 @@ export class ColorService {
     return color;
   }
 
-  // getNextColor() {
-  //   const color = this.colorsArrayBackGround[this.currentColorIndex];
-  //   this.currentColorIndex = (this.currentColorIndex + 1) % this.colorsArrayBackGround.length;
-  //   return color;
-  // }
-
-  getNextColorForBackground() {
+  getNextColorForBackground(): string {
     const color = this.colorsArrayBackGround[this.currentIndexBackgroundArray];
     this.currentIndexBackgroundArray = (this.currentIndexBackgroundArray + 1) % this.colorsArrayBackGround.length;
     return color;
   }
-  
+
   getNextColorFromSecondsCounter(array: string[]): string {
     const color = array[this.currentIndexSecondsCounterArray];
     this.currentIndexSecondsCounterArray = (this.currentIndexSecondsCounterArray + 1) % this.colorsArraySecondsCounter.length;
     return color;
   }
 
-  // these methods generates an array of colors that gradually changes from the starting color to the end color in a given number of steps (use 60 if you want to match a minute)
+  // these methods generates an array of colors that gradually changes from the starting color to the end color in a given number of steps
   generateColorArray(startColor: string, endColor: string, steps: number): string[] {
     const colorsArray = [];
     const startRGB = this.extractRGBValues(startColor);
@@ -125,7 +157,7 @@ export class ColorService {
       return matchResult.map(Number);
     } else {
       console.error('Invalid color format');
-      return [];
+      return [0, 0, 0]; // Default to black
     }
   }
 
@@ -134,5 +166,4 @@ export class ColorService {
       Math.round(component + (endColor[index] - component) * ratio)
     );
   }
-
 }

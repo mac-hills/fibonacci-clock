@@ -1,18 +1,23 @@
-<div class="clock-container " (click)="onClockContainerClick()">
-    <div class="fib-shapes container" id="fib34"[ngStyle]="{'background-color': fib34BackgroundColor}"> 
-        <div class="fib-shapes container" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
-            <div class="fib-shapes container"  id="fib13" [ngStyle]="{'background-color': fib13BackgroundColor}">
-                <div class="fib-shapes container"  id="fib8" [ngStyle]="{'background-color': fib8BackgroundColor}">
-                    <div class="fib-shapes container" id="fib5" [ngStyle]="{'background-color': fib5BackgroundColor}">
-                        <div class="fib-shapes container" id="fib3" [ngStyle]="{'background-color': fib3BackgroundColor}">
-                            <div class="fib-shapes container" id="fib2" [ngStyle]="{'background-color': fib2BackgroundColor}">
-                                <div class="fib-shapes container" id="fib1" [ngStyle]="{'background-color': fib1BackgroundColor}"></div>
-                            </div>
-                        </div>
-                    </div>
+<div class="clock-window">
+  <div class="clock-container " (click)="goToSettings()">
+    <div class="fib-shapes container" id="fib34" [ngStyle]="{'background-color': fib34BackgroundColor}">
+      <div class="fib-shapes container" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
+        <div class="fib-shapes container" id="fib13" [ngStyle]="{'background-color': fib13BackgroundColor}">
+          <div class="fib-shapes container" id="fib8" [ngStyle]="{'background-color': fib8BackgroundColor}">
+            <div class="fib-shapes container" id="fib5" [ngStyle]="{'background-color': fib5BackgroundColor}">
+              <div class="fib-shapes container" id="fib3" [ngStyle]="{'background-color': fib3BackgroundColor}">
+                <div class="fib-shapes container" id="fib2" [ngStyle]="{'background-color': fib2BackgroundColor}">
+                  <div class="fib-shapes container" id="fib1"
+                       [ngStyle]="{'background-color': fib1BackgroundColor}"></div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="fib-shapes container" id="fibsec" [style.background-color]="secondsColor"></div>
     </div>
+  </div>
 </div>
-<div class="fib-shapes container" id="fibsec" [style.background-color]="secondsColor"></div>
+
+

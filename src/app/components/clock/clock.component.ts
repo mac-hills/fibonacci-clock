@@ -9,7 +9,7 @@ import { ColorService } from 'src/app/services/color.service';
   styleUrls: ['./clock.component.css']
 })
 export class ClockComponent implements OnInit {
-  
+
   constructor(private router: Router, private colorService: ColorService){}
    // clock colors
   currentHour!: number;
@@ -22,15 +22,15 @@ export class ClockComponent implements OnInit {
   secondsCounterArrayStartColor = this.colorService.getClockColors()['secondsCounterArrayStartColor'];
   secondsCounterArrayEndColor = this.colorService.getClockColors()['secondsCounterArrayEndColor'];
 
-  
- 
- 
+
+
+
   // color(s) for seconds counter shape
   public secondsColor = '';
   // colors for second counter shape
   private secondsColorArray = this.colorService.generateColorArray(
-    this.secondsCounterArrayStartColor, 
-    this.secondsCounterArrayEndColor, 
+    this.secondsCounterArrayStartColor,
+    this.secondsCounterArrayEndColor,
     2
     );
 
@@ -46,6 +46,11 @@ export class ClockComponent implements OnInit {
     this.router.navigate(['/tutorial']);
   }
 
+  goToSettings() {
+    this.router.navigate(['/settings']).catch(err => {
+      console.error('Navigation failed:', err);
+    });
+  }
   updateCurrentTime(): void {
     const now = new Date();
     this.currentHour = now.getHours();

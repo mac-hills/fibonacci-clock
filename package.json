@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "predeploy": "ng build --base-href https://mac-hills.github.io/fibonacci-clock/",
+    "deploy": "gh-pages -d dist/fibonacci-clock-responsive"
   },
   "private": true,
   "dependencies": {

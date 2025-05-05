@@ -1,1 +1,86 @@
-<p>settings works!</p>
+<div class="settings-container">
+  <h1>Settings</h1>
+
+  <!-- Tab Menu -->
+  <div class="tab-menu">
+    <button
+      [class.active]="activeTab === 'colorSettings'"
+      (click)="setActiveTab('colorSettings')"
+    >
+      Color Settings
+    </button>
+    <button
+      [class.active]="activeTab === 'readingClock'"
+      (click)="setActiveTab('readingClock')"
+    >
+      Reading the Clock
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- Color Settings Tab -->
+    <div *ngIf="activeTab === 'colorSettings'">
+      <div class="color-settings">
+        <div *ngFor="let colorItem of clockColors | keyvalue" class="color-setting">
+          <label [attr.for]="'color-' + colorItem.key">
+            {{ colorLabels[colorItem.key] || colorItem.key }}
+          </label>
+          <div class="color-input-container">
+            <input
+              [id]="'color-' + colorItem.key"
+              type="color"
+              [value]="colorItem.value"
+              (change)="onColorChange($event, colorItem.key)"
+            />
+            <span class="color-value">{{ colorItem.value }}</span>
+            <div class="color-preview" [style.background-color]="colorItem.value"></div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button (click)="backToClock()">Back to Clock</button>
+        <button (click)="resetColors()">Reset to Default</button>
+      </div>
+    </div>
+
+    <!-- Reading the Clock Tab -->
+    <div *ngIf="activeTab === 'readingClock'">
+      <h2>Understanding Time with the Fibonacci Clock</h2>
+      <p>
+        The Fibonacci Clock is based on the mathematical sequence created by the
+        Italian mathematician Fibonacci in the 13th century. Beginning with 1 and
+        1, each subsequent number is the sum of the two preceding ones. The clock
+        utilizes the initial terms of this sequence: 1, 1, 2, 3, 5, 8, 13, 21, and
+        34.
+      </p>
+      <h3>Shapes</h3>
+      <p>
+        The display consists of shapes, each sized according to the initial
+        Fibonacci numbers: 1, 1, 2, 3... The smallest shape represents a 1. The
+        largest shape represents 34. The other shapes from small to large
+        represent 2, 3, 5, 8, 13, and 21.
+      </p>
+      <h3>Calculate Time</h3>
+      <p>
+        <strong>Hour:</strong> Sum up the values of the shapes depicted in the
+        colors that represent the hour and the shapes that represent hours and
+        minutes.
+      </p>
+      <p>
+        <strong>Minutes:</strong> Sum up the values of the shapes depicted in the
+        colors that represent the minutes and the shapes that represent hours and
+        minutes.
+      </p>
+      <p>
+        <strong>Seconds:</strong> Seconds are depicted in a color-changing shape,
+        transitioning every second. Additionally, the background darkens every
+        second, and after a minute passes, it returns to its original lighter
+        state.
+      </p>
+      <div class="actions">
+        <button (click)="backToClock()">Back to Clock</button>
+      </div>
+    </div>
+  </div>
+</div>
