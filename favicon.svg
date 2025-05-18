@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+    <style>
+        @keyframes blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+        }
+        .cursor {
+        animation: blink 1s step-end infinite;
+        }
+    </style>
+    <rect width="100%" height="100%" fill="#ffffff" rx="5" ry="5"/>
+    <text x="5" y="21" fill="#31AC64" font-size="16" font-family="monospace, 'Courier New', Courier" font-weight="bold">W&gt;</text>
+    <rect class="cursor" x="24" y="9" width="2" height="14" fill="#31AC64"/>
+</svg>
