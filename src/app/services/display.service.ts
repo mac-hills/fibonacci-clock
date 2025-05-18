@@ -7,7 +7,7 @@ import { LocalStorageService } from './local-storage.service';
 export class DisplayService {
   private readonly SHOW_DIGITAL_TIME_KEY = 'fibonacciClockShowDigitalTime';
   private readonly SHOW_CALCULATION_PANEL_KEY = 'fibonacciClockShowCalculationPanel';
-  private defaultShowDigitalTime = true;
+  private defaultShowDigitalTime = false;
   private defaultShowCalculationPanel = false;
 
   constructor(private localStorageService: LocalStorageService) { }
