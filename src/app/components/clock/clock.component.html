@@ -1,4 +1,7 @@
 <div class="clock-window">
+  <div class="digital-time" *ngIf="showDigitalTime">
+    {{ currentHour | number:'2.0-0' }}:{{ currentMinutes | number:'2.0-0' }}:{{ currentSeconds | number:'2.0-0' }}
+  </div>
   <div class="clock-container " (click)="goToSettings()">
     <div class="fib-shapes container" id="fib34" [ngStyle]="{'background-color': fib34BackgroundColor}">
       <div class="fib-shapes container" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
@@ -18,6 +21,60 @@
       <div class="fib-shapes container" id="fibsec" [style.background-color]="secondsColor"></div>
     </div>
   </div>
+
+
+  <div *ngIf="showCalculationPanel" class="calculation-panel">
+    <h3>How the Clock Works</h3>
+
+    <div class="calculation-group">
+      <h4 [style.background-color]="colorWhenUsedForHours">Hours Only</h4>
+      <div class="calculation">
+        <ng-container *ngIf="hoursValues.length > 0; else noHours">
+          {{ formatValues(hoursValues) }} = {{ calculateSum(hoursValues) }}
+        </ng-container>
+        <ng-template #noHours>None</ng-template>
+      </div>
+    </div>
+
+    <div class="calculation-group">
+      <h4 [style.background-color]="colorWhenUsedForMinutes">Minutes Only</h4>
+      <div class="calculation">
+        <ng-container *ngIf="minutesValues.length > 0; else noMinutes">
+          {{ formatValues(minutesValues) }} = {{ calculateSum(minutesValues) }}
+        </ng-container>
+        <ng-template #noMinutes>None</ng-template>
+      </div>
+    </div>
+
+    <div class="calculation-group">
+      <h4 [style.background-color]="colorWhenUsedForHoursAndMinutes">Hours & Minutes</h4>
+      <div class="calculation">
+        <ng-container *ngIf="bothValues.length > 0; else noBoth">
+          {{ formatValues(bothValues) }} = {{ calculateSum(bothValues) }}
+        </ng-container>
+        <ng-template #noBoth>None</ng-template>
+      </div>
+    </div>
+
+    <div class="calculation-results">
+      <div class="result-row">
+        <span>Total Hours:</span>
+        <span class="result">
+        {{ formatValues(combineArrays(hoursValues, bothValues)) }} =
+          {{ calculateSum(combineArrays(hoursValues, bothValues)) }}
+      </span>
+      </div>
+      <div class="result-row">
+        <span>Total Minutes:</span>
+        <span class="result">
+        {{ formatValues(combineArrays(minutesValues, bothValues)) }} =
+          {{ calculateSum(combineArrays(minutesValues, bothValues)) }}
+      </span>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 
 

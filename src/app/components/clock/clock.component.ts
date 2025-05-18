@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { ColorService } from 'src/app/services/color.service';
 import { AnimationService } from 'src/app/services/animation.service';
+import { DisplayService } from 'src/app/services/display.service';
 
 @Component({
   selector: 'app-clock',
@@ -11,7 +12,12 @@ import { AnimationService } from 'src/app/services/animation.service';
 })
 export class ClockComponent implements OnInit {
 
-  constructor(private router: Router, private colorService: ColorService, private animationService: AnimationService){}
+  constructor(private router: Router, private colorService: ColorService, private animationService: AnimationService, private displayService: DisplayService){}
+  showDigitalTime: boolean = true;
+  showCalculationPanel: boolean = false;
+  hoursValues: number[] = [];
+  minutesValues: number[] = [];
+  bothValues: number[] = [];
    // clock colors
   currentHour!: number;
   currentMinutes!: number;
@@ -23,9 +29,6 @@ export class ClockComponent implements OnInit {
   secondsCounterArrayStartColor = this.colorService.getClockColors()['secondsCounterArrayStartColor'];
   secondsCounterArrayEndColor = this.colorService.getClockColors()['secondsCounterArrayEndColor'];
 
-
-
-
   // color(s) for seconds counter shape
   public secondsColor = '';
   // colors for second counter shape
@@ -36,13 +39,67 @@ export class ClockComponent implements OnInit {
     );
 
   ngOnInit() {
+    this.showDigitalTime = this.displayService.isDigitalTimeVisible();
+    this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
     const spinSpeed = this.animationService.getSpinSpeed();
     document.documentElement.style.setProperty('--spin-duration', `${spinSpeed}s`);
     interval(1000).subscribe(() => {
       this.updateCurrentTime();
       this.setClockBackgroundColors();
       this.secondsColor=this.colorService.getNextColorFromSecondsCounter(this.secondsColorArray);
+      this.updateCalculationValues();
     });
+  }
+
+  formatValues(values: number[]): string {
+    return values.length > 0 ? values.join(' + ') : '0';
+  }
+
+  calculateSum(values: number[]): number {
+    return values.reduce((sum, val) => sum + val, 0);
+  }
+
+  combineArrays(arr1: number[], arr2: number[]): number[] {
+    return [...arr1, ...arr2];
+  }
+
+  private updateCalculationValues(): void {
+    this.hoursValues = [];
+    this.minutesValues = [];
+    this.bothValues = [];
+
+    // Check each fibonacci number and sort it into the right array
+    if (this.fib1UsedForHours) this.hoursValues.push(1);
+    if (this.fib1UsedForMinutes) this.minutesValues.push(1);
+    if (this.fib1UsedForBoth) this.bothValues.push(1);
+
+    if (this.fib2UsedForHours) this.hoursValues.push(2);
+    if (this.fib2UsedForMinutes) this.minutesValues.push(2);
+    if (this.fib2UsedForBoth) this.bothValues.push(2);
+
+    if (this.fib3UsedForHours) this.hoursValues.push(3);
+    if (this.fib3UsedForMinutes) this.minutesValues.push(3);
+    if (this.fib3UsedForBoth) this.bothValues.push(3);
+
+    if (this.fib5UsedForHours) this.hoursValues.push(5);
+    if (this.fib5UsedForMinutes) this.minutesValues.push(5);
+    if (this.fib5UsedForBoth) this.bothValues.push(5);
+
+    if (this.fib8UsedForHours) this.hoursValues.push(8);
+    if (this.fib8UsedForMinutes) this.minutesValues.push(8);
+    if (this.fib8UsedForBoth) this.bothValues.push(8);
+
+    if (this.fib13UsedForHours) this.hoursValues.push(13);
+    if (this.fib13UsedForMinutes) this.minutesValues.push(13);
+    if (this.fib13UsedForBoth) this.bothValues.push(13);
+
+    if (this.fib21UsedForHours) this.hoursValues.push(21);
+    if (this.fib21UsedForMinutes) this.minutesValues.push(21);
+    if (this.fib21UsedForBoth) this.bothValues.push(21);
+
+    if (this.fib34UsedForHours) this.hoursValues.push(34);
+    if (this.fib34UsedForMinutes) this.minutesValues.push(34);
+    if (this.fib34UsedForBoth) this.bothValues.push(34);
   }
 
   onClockContainerClick() {

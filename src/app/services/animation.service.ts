@@ -1,4 +1,3 @@
-// src/app/services/animation.service.ts
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 

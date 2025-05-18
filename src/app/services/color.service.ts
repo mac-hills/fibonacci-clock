@@ -1,4 +1,3 @@
-// src/app/services/color.service.ts
 import { Injectable } from '@angular/core';
 import { clockColors } from '../resources/color-resources/clockColors';
 import { LocalStorageService } from './local-storage.service';

@@ -1,4 +1,3 @@
-// src/app/services/local-storage.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({

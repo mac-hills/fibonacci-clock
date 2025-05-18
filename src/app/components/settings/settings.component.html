@@ -3,16 +3,13 @@
 
   <!-- Tab Menu -->
   <div class="tab-menu">
-    <button
-      [class.active]="activeTab === 'colorSettings'"
-      (click)="setActiveTab('colorSettings')"
-    >
+    <button [class.active]="activeTab === 'colorSettings'" (click)="setActiveTab('colorSettings')">
       Color Settings
     </button>
-    <button
-      [class.active]="activeTab === 'readingClock'"
-      (click)="setActiveTab('readingClock')"
-    >
+    <button [class.active]="activeTab === 'displaySettings'" (click)="setActiveTab('displaySettings')">
+      Display Settings
+    </button>
+    <button [class.active]="activeTab === 'readingClock'" (click)="setActiveTab('readingClock')">
       Reading the Clock
     </button>
   </div>
@@ -38,28 +35,66 @@
           </div>
         </div>
       </div>
-      <!-- Animation Speed Control  -->
-      <div class="animation-controls">
-        <h3>Animation Speed</h3>
-        <div class="slider-container">
-          <label for="spin-speed">Time it takes to make a full rotation: {{spinSpeed}} seconds</label>
-          <input
-            type="range"
-            id="spin-speed"
-            min="1"
-            max="120"
-            step="1"
-            [(ngModel)]="spinSpeed"
-            (input)="updateSpinSpeed()">
-          <p class="slider-description">Adjust how fast the circles rotate (lower = faster spin).</p>
-        </div>
-      </div>
+
       <div class="actions">
         <button (click)="backToClock()">Back to Clock</button>
         <button (click)="resetColors()">Reset to Default</button>
       </div>
     </div>
+    <!-- Display Settings Tab -->
+    <div *ngIf="activeTab === 'displaySettings'">
+      <h2>Display Settings</h2>
 
+      <div class="switch-container">
+        <label class="switch-label">
+          <span>Show Digital Time</span>
+          <div class="switch">
+            <input
+              type="checkbox"
+              [checked]="showDigitalTime"
+              (change)="toggleDigitalTime($event)">
+            <span class="slider round"></span>
+          </div>
+        </label>
+        <p class="setting-description">
+          Show or hide the digital time display in the top-left corner of the clock
+        </p>
+      </div>
+      <div class="switch-container">
+        <label class="switch-label">
+          <span>Show Calculation Panel</span>
+          <div class="switch">
+            <input
+              type="checkbox"
+              [checked]="showCalculationPanel"
+              (change)="toggleCalculationPanel($event)">
+            <span class="slider round"></span>
+          </div>
+        </label>
+        <p class="setting-description">
+          Show or hide a panel that explains how the current time is calculated using Fibonacci numbers
+        </p>
+      </div>
+      <div class="animation-controls">
+        <h3>Animation Speed</h3>
+        <div class="slider-container">
+          <label for="spin-speed">Rotation Speed: {{spinSpeed}} seconds</label>
+          <input
+            type="range"
+            id="spin-speed"
+            min="10"
+            max="120"
+            step="5"
+            [(ngModel)]="spinSpeed"
+            (input)="updateSpinSpeed()">
+          <p class="slider-description">Adjust how fast the Fibonacci circles rotate (lower = faster spin).</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button (click)="backToClock()">Back to Clock</button>
+      </div>
+    </div>
     <!-- Reading the Clock Tab -->
     <div *ngIf="activeTab === 'readingClock'">
       <h2>Understanding Time with the Fibonacci Clock</h2>

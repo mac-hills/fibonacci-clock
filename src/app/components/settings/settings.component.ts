@@ -1,8 +1,9 @@
 // src/app/components/settings/settings.component.ts
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ColorService } from 'src/app/services/color.service';
-import { AnimationService } from 'src/app/services/animation.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {ColorService} from 'src/app/services/color.service';
+import {AnimationService} from 'src/app/services/animation.service';
+import {DisplayService} from 'src/app/services/display.service';
 
 @Component({
   selector: 'app-settings',
@@ -24,12 +25,30 @@ export class SettingsComponent implements OnInit {
 
 // Active tab state
   activeTab: string = 'colorSettings';
+  showDigitalTime: boolean = true;
+  showCalculationPanel: boolean = false;
   spinSpeed: number = 60;
-  constructor(private colorService: ColorService, private router: Router, private animationService: AnimationService) {}
+
+  constructor(private colorService: ColorService, private router: Router, private displayService: DisplayService, private animationService: AnimationService) {
+  }
 
   ngOnInit(): void {
-    this.clockColors = { ...this.colorService.getClockColors() };
+    this.clockColors = {...this.colorService.getClockColors()};
+    this.showDigitalTime = this.displayService.isDigitalTimeVisible();
+    this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
     this.spinSpeed = this.animationService.getSpinSpeed();
+  }
+
+  toggleDigitalTime(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.showDigitalTime = checkbox.checked;
+    this.displayService.setDigitalTimeVisibility(this.showDigitalTime);
+  }
+
+  toggleCalculationPanel(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.showCalculationPanel = checkbox.checked;
+    this.displayService.setCalculationPanelVisibility(this.showCalculationPanel);
   }
 
   updateSpinSpeed(): void {
@@ -50,7 +69,7 @@ export class SettingsComponent implements OnInit {
 
   resetColors(): void {
     this.colorService.resetColors();
-    this.clockColors = { ...this.colorService.getClockColors() };
+    this.clockColors = {...this.colorService.getClockColors()};
   }
 
   // Handle the promise returned by navigate
@@ -59,6 +78,7 @@ export class SettingsComponent implements OnInit {
       console.error('Navigation failed:', err);
     });
   }
+
   // Set the active tab
   setActiveTab(tab: string): void {
     this.activeTab = tab;
