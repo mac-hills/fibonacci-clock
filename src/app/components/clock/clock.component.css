@@ -1,16 +1,32 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  overflow: hidden;
+}
+
 .clock-window {
   position:relative;
   display:flex;
   align-items:center;
-  justify-content:center
+  justify-content:center;
+  overflow: hidden;
+
 }
 .clock-container {
   position:relative;
-  height:90vh;
+  height:95vh;
   aspect-ratio:1/1;
   align-items:center;
   justify-content:center;
-  left:-25px
+  left:-25px;
+
 }
 .container {
   margin:6%;
@@ -24,12 +40,13 @@
   box-shadow:0 5px 10px #000
 }
 #fib34 {
+  animation: spin 60s linear infinite;
   position:relative;
-  width:100%;
-  height:100%;
-  margin:6%
+  width:90%;
+  height:90%;
 }
 #fib21 {
+  animation: spin 60s linear infinite;
   width:calc(21/34*100%);
   height:calc(21/34*100%);
   flex-direction:column;
@@ -38,6 +55,7 @@
   right:0
 }
 #fib13 {
+  animation: spin 60s linear infinite;
   width:calc(13/21*100%);
   height:calc(13/21*100%);
   flex-direction:column;
@@ -46,6 +64,7 @@
   right:0
 }
 #fib8 {
+  animation: spin 60s linear infinite;
   width:calc(8/13*100%);
   height:calc(8/13*100%);
   flex-direction:column;
@@ -54,6 +73,7 @@
   left:0
 }
 #fib5 {
+  animation: spin 60s linear infinite;
   width:62.5%;
   height:62.5%;
   flex-direction:column;
@@ -62,6 +82,7 @@
   left:0
 }
 #fib3 {
+  animation: spin 60s linear infinite;
   width:calc(3/5*100%);
   height:calc(3/5*100%);
   flex-direction:column;
@@ -70,6 +91,7 @@
   right:0
 }
 #fib2 {
+  animation: spin 60s linear infinite;
   width:calc(2/3*100%);
   height:calc(2/3*100%);
   flex-direction:column;
@@ -78,6 +100,7 @@
   right:0
 }
 #fib1 {
+  animation: spin 60s linear infinite;
   width:50%;
   height:50%;
   flex-direction:column;
@@ -87,8 +110,8 @@
 }
 #fibsec {
   position:absolute;
-  top:calc(60% - 40vh);
-  left:calc(60% - 40vh);
+  top:calc(65% - 40vh);
+  left:calc(65% - 40vh);
   width:calc(3/34*100%);
   height:calc(3/34*100%);
   box-shadow:inset 0 4px 8px #000;
