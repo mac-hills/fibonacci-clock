@@ -1,5 +1,29 @@
-/* src/app/components/settings/settings.component.css */
-/* Tab Menu */
+.animation-controls {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.slider-container {
+  margin: 15px 0;
+}
+
+.slider-description {
+  font-size: 0.9em;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #4285f4, #34a853);
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
 .tab-menu {
   display: flex;
   justify-content: center;

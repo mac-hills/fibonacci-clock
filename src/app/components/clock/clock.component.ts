@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { ColorService } from 'src/app/services/color.service';
+import { AnimationService } from 'src/app/services/animation.service';
 
 @Component({
   selector: 'app-clock',
@@ -10,7 +11,7 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class ClockComponent implements OnInit {
 
-  constructor(private router: Router, private colorService: ColorService){}
+  constructor(private router: Router, private colorService: ColorService, private animationService: AnimationService){}
    // clock colors
   currentHour!: number;
   currentMinutes!: number;
@@ -35,6 +36,8 @@ export class ClockComponent implements OnInit {
     );
 
   ngOnInit() {
+    const spinSpeed = this.animationService.getSpinSpeed();
+    document.documentElement.style.setProperty('--spin-duration', `${spinSpeed}s`);
     interval(1000).subscribe(() => {
       this.updateCurrentTime();
       this.setClockBackgroundColors();

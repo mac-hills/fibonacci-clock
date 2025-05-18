@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColorService } from 'src/app/services/color.service';
+import { AnimationService } from 'src/app/services/animation.service';
 
 @Component({
   selector: 'app-settings',
@@ -23,11 +24,16 @@ export class SettingsComponent implements OnInit {
 
 // Active tab state
   activeTab: string = 'colorSettings';
-
-  constructor(private colorService: ColorService, private router: Router) {}
+  spinSpeed: number = 60;
+  constructor(private colorService: ColorService, private router: Router, private animationService: AnimationService) {}
 
   ngOnInit(): void {
     this.clockColors = { ...this.colorService.getClockColors() };
+    this.spinSpeed = this.animationService.getSpinSpeed();
+  }
+
+  updateSpinSpeed(): void {
+    this.animationService.setSpinSpeed(this.spinSpeed);
   }
 
   onColorChange(event: Event, colorKey: string): void {

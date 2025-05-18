@@ -10,6 +10,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -18,11 +19,12 @@ import { ColorPickerModule } from 'ngx-color-picker';
     TutorialComponent,
     SettingsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ColorPickerModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ColorPickerModule,
+        FormsModule
+    ],
   providers: [ColorService, LocalStorageService],
   bootstrap: [AppComponent]
 })

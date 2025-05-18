@@ -1,3 +1,7 @@
+:root {
+  --spin-duration: 60s; /* Default value */
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -40,13 +44,13 @@ body {
   box-shadow:0 5px 10px #000
 }
 #fib34 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   position:relative;
   width:90%;
   height:90%;
 }
 #fib21 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:calc(21/34*100%);
   height:calc(21/34*100%);
   flex-direction:column;
@@ -55,7 +59,7 @@ body {
   right:0
 }
 #fib13 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:calc(13/21*100%);
   height:calc(13/21*100%);
   flex-direction:column;
@@ -64,7 +68,7 @@ body {
   right:0
 }
 #fib8 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:calc(8/13*100%);
   height:calc(8/13*100%);
   flex-direction:column;
@@ -73,7 +77,7 @@ body {
   left:0
 }
 #fib5 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:62.5%;
   height:62.5%;
   flex-direction:column;
@@ -82,7 +86,7 @@ body {
   left:0
 }
 #fib3 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:calc(3/5*100%);
   height:calc(3/5*100%);
   flex-direction:column;
@@ -91,7 +95,7 @@ body {
   right:0
 }
 #fib2 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:calc(2/3*100%);
   height:calc(2/3*100%);
   flex-direction:column;
@@ -100,7 +104,7 @@ body {
   right:0
 }
 #fib1 {
-  animation: spin 60s linear infinite;
+  animation: spin var(--spin-duration) linear infinite;
   width:50%;
   height:50%;
   flex-direction:column;
