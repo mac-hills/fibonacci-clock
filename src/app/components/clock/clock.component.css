@@ -98,10 +98,11 @@ body {
 }
 .clock-container {
   position:relative;
-  height:95vh;
+  height:98vh;
   aspect-ratio:1/1;
   align-items:center;
   justify-content:center;
+  left: -6px;
 }
 .container {
   margin:6%;

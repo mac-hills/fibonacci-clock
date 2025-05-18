@@ -1,7 +1,10 @@
 <div class="clock-window">
+  <!-- digital time section -->
   <div class="digital-time" *ngIf="showDigitalTime">
     {{ currentHour | number:'2.0-0' }}:{{ currentMinutes | number:'2.0-0' }}:{{ currentSeconds | number:'2.0-0' }}
   </div>
+
+  <!--  clock section -->
   <div class="clock-container " (click)="goToSettings()">
     <div class="fib-shapes container" id="fib34" [ngStyle]="{'background-color': fib34BackgroundColor}">
       <div class="fib-shapes container" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
@@ -22,7 +25,7 @@
     </div>
   </div>
 
-
+  <!-- calculation panel section -->
   <div *ngIf="showCalculationPanel" class="calculation-panel">
     <h3>How the Clock Works</h3>
 
