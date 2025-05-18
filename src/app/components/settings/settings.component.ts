@@ -24,7 +24,7 @@ export class SettingsComponent implements OnInit {
   };
 
 // Active tab state
-  activeTab: string = 'colorSettings';
+  activeTab: string = 'displaySettings';
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
   spinSpeed: number = 60;
