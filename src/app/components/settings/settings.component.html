@@ -1,136 +1,184 @@
-<div class="settings-container">
-  <h1>Settings</h1>
+<div class="settings-overlay" *ngIf="settingsOverlayService.visibility$ | async">
+  <div class="settings-container">
+    <h1>Settings</h1>
 
-  <!-- Tab Menu -->
-  <div class="tab-menu">
-    <button [class.active]="activeTab === 'colorSettings'" (click)="setActiveTab('colorSettings')">
-      Color Settings
-    </button>
-    <button [class.active]="activeTab === 'displaySettings'" (click)="setActiveTab('displaySettings')">
-      Display Settings
-    </button>
-    <button [class.active]="activeTab === 'readingClock'" (click)="setActiveTab('readingClock')">
-      Reading the Clock
-    </button>
-  </div>
+    <!-- Tab Menu -->
+    <div class="tab-menu">
+      <button [class.active]="activeTab === 'colorSettings'" (click)="setActiveTab('colorSettings')">
+        Color Settings
+      </button>
+      <button [class.active]="activeTab === 'displaySettings'" (click)="setActiveTab('displaySettings')">
+        Display Settings
+      </button>
+      <button [class.active]="activeTab === 'readingClock'" (click)="setActiveTab('readingClock')">
+        Reading the Clock
+      </button>
+      <button  (click)="backToClock()">
+        Back to Clock
+      </button>
+    </div>
 
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <!-- Color Settings Tab -->
-    <div *ngIf="activeTab === 'colorSettings'">
-      <div class="color-settings">
-        <div *ngFor="let colorItem of clockColors | keyvalue" class="color-setting">
-          <label [attr.for]="'color-' + colorItem.key">
-            {{ colorLabels[colorItem.key] || colorItem.key }}
-          </label>
-          <div class="color-input-container">
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <!-- Color Settings Tab -->
+      <div *ngIf="activeTab === 'colorSettings'" class="color-settings-container">
+        <!-- Time Display Colors -->
+        <h3 class="settings-category-header">Time Display Colors</h3>
+        <div class="color-card" *ngFor="let color of timeColors">
+          <div class="color-label">{{ colorLabels[color.key] }}</div>
+          <div class="color-preview" [style.background-color]="clockColors[color.key]"></div>
+          <button class="select-color-btn">
             <input
-              [id]="'color-' + colorItem.key"
               type="color"
-              [value]="colorItem.value"
-              (change)="onColorChange($event, colorItem.key)"
-            />
-            <span class="color-value">{{ colorItem.value }}</span>
-            <div class="color-preview" [style.background-color]="colorItem.value"></div>
-          </div>
+              [value]="clockColors[color.key]"
+              (change)="onColorChange($event, color.key)"
+            >
+            Select Color
+          </button>
+        </div>
+
+        <!-- Seconds Counter Colors -->
+        <h3 class="settings-category-header">Seconds Counter Colors</h3>
+
+        <div class="color-card" *ngFor="let color of secondsCounterColors">
+          <div class="color-label">{{ colorLabels[color.key] }}</div>
+          <div class="color-preview" [style.background-color]="clockColors[color.key]"></div>
+          <button class="select-color-btn">
+            <input
+              type="color"
+              [value]="clockColors[color.key]"
+              (change)="onColorChange($event, color.key)"
+            >
+            Select Color
+          </button>
+        </div>
+
+        <!-- Background Colors -->
+        <h3 class="settings-category-header">Background Colors</h3>
+
+        <div class="color-card" *ngFor="let color of backgroundColors">
+          <div class="color-label">{{ colorLabels[color.key] }}</div>
+          <div class="color-preview" [style.background-color]="clockColors[color.key]"></div>
+          <button class="select-color-btn">
+            <input
+              type="color"
+              [value]="clockColors[color.key]"
+              (change)="onColorChange($event, color.key)"
+            >
+            Select Color
+          </button>
+        </div>
+
+        <div class="actions">
+          <button (click)="backToClock()">Back to Clock</button>
+          <button (click)="resetColors()">Reset to Default</button>
         </div>
       </div>
 
-      <div class="actions">
-        <button (click)="backToClock()">Back to Clock</button>
-        <button (click)="resetColors()">Reset to Default</button>
-      </div>
-    </div>
-    <!-- Display Settings Tab -->
-    <div *ngIf="activeTab === 'displaySettings'">
-      <h2>Display Settings</h2>
+      <!-- Display Settings Tab -->
+      <div *ngIf="activeTab === 'displaySettings'">
+        <h2>Display Settings</h2>
 
-      <div class="switch-container">
-        <label class="switch-label">
-          <span>Show Digital Time</span>
-          <div class="switch">
+        <div class="switch-container">
+          <label class="switch-label">
+            <span>Show Digital Time</span>
+            <div class="switch">
+              <input
+                type="checkbox"
+                [checked]="showDigitalTime"
+                (change)="toggleDigitalTime($event)">
+              <span class="slider round"></span>
+            </div>
+          </label>
+          <p class="setting-description">
+            Show or hide the digital time display in the top-left corner of the clock
+          </p>
+        </div>
+        <div class="switch-container">
+          <label class="switch-label">
+            <span>Show Calculation Panel</span>
+            <div class="switch">
+              <input
+                type="checkbox"
+                [checked]="showCalculationPanel"
+                (change)="toggleCalculationPanel($event)">
+              <span class="slider round"></span>
+            </div>
+          </label>
+          <p class="setting-description">
+            Show or hide a panel that explains how the current time is calculated using Fibonacci numbers
+          </p>
+        </div>
+        <div class="animation-controls">
+          <h3>Rotation Speed</h3>
+          <div class="slider-container">
+            <label for="spin-speed">Time it takes to make a full rotation: {{ spinSpeed }} seconds</label>
             <input
-              type="checkbox"
-              [checked]="showDigitalTime"
-              (change)="toggleDigitalTime($event)">
-            <span class="slider round"></span>
+              type="range"
+              id="spin-speed"
+              min="1"
+              max="120"
+              step="1"
+              [(ngModel)]="spinSpeed"
+              (input)="updateSpinSpeed()">
+            <p class="slider-description">Adjust how fast the circles rotate (lower = faster spin).</p>
           </div>
-        </label>
-        <p class="setting-description">
-          Show or hide the digital time display in the top-left corner of the clock
-        </p>
-      </div>
-      <div class="switch-container">
-        <label class="switch-label">
-          <span>Show Calculation Panel</span>
-          <div class="switch">
-            <input
-              type="checkbox"
-              [checked]="showCalculationPanel"
-              (change)="toggleCalculationPanel($event)">
-            <span class="slider round"></span>
-          </div>
-        </label>
-        <p class="setting-description">
-          Show or hide a panel that explains how the current time is calculated using Fibonacci numbers
-        </p>
-      </div>
-      <div class="animation-controls">
-        <h3>Rotation Speed</h3>
-        <div class="slider-container">
-          <label for="spin-speed">Time it takes to make a full rotation: {{spinSpeed}} seconds</label>
-          <input
-            type="range"
-            id="spin-speed"
-            min="1"
-            max="120"
-            step="1"
-            [(ngModel)]="spinSpeed"
-            (input)="updateSpinSpeed()">
-          <p class="slider-description">Adjust how fast the circles rotate (lower = faster spin).</p>
+        </div>
+
+        <div class="actions">
+          <button (click)="backToClock()">Back to Clock</button>
         </div>
       </div>
-
-      <div class="actions">
-        <button (click)="backToClock()">Back to Clock</button>
-      </div>
-    </div>
-    <!-- Reading the Clock Tab -->
-    <div *ngIf="activeTab === 'readingClock'">
-      <h2>Understanding Time with the Fibonacci Clock</h2>
-      <p>
-        The Fibonacci Clock is based on the mathematical sequence created by the
-        Italian mathematician Fibonacci in the 13th century. Beginning with 1 and
-        1, each subsequent number is the sum of the two preceding ones. The clock
-        utilizes the initial terms of this sequence: 1, 1, 2, 3, 5, 8, 13, 21, and
-        34.
-      </p>
-      <h3>Shapes</h3>
-      <p>
-        The display consists of shapes, each sized according to the initial
-        Fibonacci numbers: 1, 1, 2, 3... The smallest shape represents a 1. The
-        largest shape represents 34. The other shapes from small to large
-        represent 2, 3, 5, 8, 13, and 21.
-      </p>
-      <h3>Calculate Time</h3>
-      <p>
-        <strong>Hour:</strong> Sum up the values of the shapes depicted in the
-        colors that represent the hour and the shapes that represent hours and
-        minutes.
-      </p>
-      <p>
-        <strong>Minutes:</strong> Sum up the values of the shapes depicted in the
-        colors that represent the minutes and the shapes that represent hours and
-        minutes.
-      </p>
-      <p>
-        <strong>Seconds:</strong> Seconds are depicted in a color-changing shape,
-        transitioning every second. Additionally, the background darkens every
-        second, and after a minute passes, it returns to its original lighter
-        state.
-      </p>
-      <div class="actions">
-        <button (click)="backToClock()">Back to Clock</button>
+      <!-- Reading the Clock Tab -->
+      <div *ngIf="activeTab === 'readingClock'">
+        <div class="switch-container">
+          <h2>Understanding Time with the Fibonacci Clock</h2>
+          <p>
+            The Fibonacci Clock is based on the mathematical sequence created by the
+            Italian mathematician Fibonacci in the 13th century. Beginning with 1 and
+            1, each subsequent number is the sum of the two preceding ones. The clock
+            uses the initial terms of this sequence: <strong>1, 1, 2, 3, 5, 8, 13, 21, and
+            34</strong>.
+          </p>
+        </div>
+        <div class="switch-container">
+          <h3>Shapes</h3>
+          <p>
+            The clock display consists of shapes, each sized according to the Fibonacci numbers:
+            The smallest shape represents 1.
+            The largest shape represents 34.
+            The other shapes represent 2, 3, 5, 8, 13, and 21, arranged from smallest to largest.
+            These shapes are displayed on the clock face and are color-coded to represent hours, minutes, and seconds.
+          </p>
+        </div>
+        <div class="switch-container">
+          <h3>Calculate Time</h3>
+          <p>
+            <strong>Hour:</strong> Add up the values of the shapes depicted in the
+            colors that represent the hour including the values of the shapes that represent hours and
+            minutes.
+          </p>
+          <p>
+            <strong>Minutes:</strong> Add up the values of the shapes depicted in the
+            colors that represent the minutes including the shapes that represent hours and
+            minutes.
+          </p>
+          <p>
+            <strong>Seconds:</strong> Seconds are represented by the small circle that changes color every second.
+            Additionally, the background transitions from one color to another after a minute passes, it then it returns
+            to its original color.
+          </p>
+        </div>
+        <h3>Practice Reading the Clock</h3>
+        <p>
+          If you're new to the Fibonacci Clock, you can enable the calculation panel in the display settings tab in the
+          menu at the top. This
+          panel shows the calculations for the current time, making it easier to practice and learn how to read the
+          clock.
+        </p>
+        <div class="actions">
+          <button (click)="backToClock()">Back to Clock</button>
+        </div>
       </div>
     </div>
   </div>

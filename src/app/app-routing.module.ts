@@ -6,10 +6,10 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
-  { path: 'clock', component: ClockComponent },
+  { path: '', component: ClockComponent },
   { path: 'tutorial', component: TutorialComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: '', redirectTo: '/clock', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },  // Redirect to home for any unknown paths
 ];
 
 @NgModule({
