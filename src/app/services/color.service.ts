@@ -1,6 +1,8 @@
+// color.service.ts
 import { Injectable } from '@angular/core';
 import { clockColors } from '../resources/color-resources/clockColors';
 import { LocalStorageService } from './local-storage.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,76 +10,64 @@ import { LocalStorageService } from './local-storage.service';
 export class ColorService {
   private readonly CLOCK_COLORS_KEY = 'clockColors';
   private colors: Record<string, string>;
+  private colorsSubject = new BehaviorSubject<Record<string, string>>({});
+  public colors$: Observable<Record<string, string>> = this.colorsSubject.asObservable();
 
   public currentIndexBackgroundArray = 0;
   public currentIndexSecondsCounterArray = 0;
   public currentColorIndex = 0;
   private letters = '0123456789ABCDEF';
-
-  // generating a colors array for the background color
   public colorsArrayBackGround: string[] = [];
-
-  // generating a colors array for the seconds counter
   public colorsArraySecondsCounter: string[] = [];
 
   constructor(private localStorageService: LocalStorageService) {
-    // Load colors from localStorage or use defaults
     this.colors = this.localStorageService.getItem<Record<string, string>>(
       this.CLOCK_COLORS_KEY,
       { ...clockColors }
     );
-
+    this.colorsSubject.next(this.colors);
     this.regenerateColorArrays();
   }
-
-  // Access all clock colors
   getClockColors(): Record<string, string> {
     return this.colors;
   }
-
-  // Update a specific color and save to localStorage
   updateColor(colorKey: string, colorValue: string): void {
     this.colors[colorKey] = colorValue;
     this.saveColors();
     this.regenerateColorArrays();
+    this.colorsSubject.next({...this.colors});
   }
-
-  // Save all colors to localStorage
   saveColors(): void {
     this.localStorageService.setItem(this.CLOCK_COLORS_KEY, this.colors);
   }
-
-  // Reset colors to default
   resetColors(): void {
     this.colors = { ...clockColors };
     this.saveColors();
     this.regenerateColorArrays();
-  }
 
-  // Regenerate color arrays based on current color settings
+    // Reset stripe color too (if you store it in the colors object)
+    this.colors['stripeColor'] = '#ffffff';
+
+    this.colorsSubject.next({...this.colors});
+  }
   private regenerateColorArrays(): void {
     const clockBackGroundColorArrayStartColor = this.getClockBackgroundColorStart();
     const clockBackGroundColorArrayEndColor = this.getClockBackgroundColorEnd();
     const clockBackGroundColorSteps = 60;
-
     const startColorSecondsCounter = this.getSecondsCounterArrayStartColor();
     const endColorSecondsCounter = this.getSecondsCounterArrayEndColor();
     const stepsSecondsCounter = 1;
-
     this.colorsArrayBackGround = this.generateColorArray(
       clockBackGroundColorArrayStartColor,
       clockBackGroundColorArrayEndColor,
       clockBackGroundColorSteps
     );
-
     this.colorsArraySecondsCounter = this.generateColorArray(
       startColorSecondsCounter,
       endColorSecondsCounter,
       stepsSecondsCounter
     );
   }
-
-  // Access specific colors
   getColorWhenUsedForHoursAndMinutes(): string {
     return this.colors['colorWhenUsedForHoursAndMinutes'];
   }
@@ -138,7 +128,6 @@ export class ColorService {
     return color;
   }
 
-  // these methods generates an array of colors that gradually changes from the starting color to the end color in a given number of steps
   generateColorArray(startColor: string, endColor: string, steps: number): string[] {
     const colorsArray = [];
     const startRGB = this.extractRGBValues(startColor);
@@ -151,12 +140,20 @@ export class ColorService {
   }
 
   private extractRGBValues(color: string): number[] {
-    const matchResult = color.match(/\d+/g);
-    if (matchResult) {
-      return matchResult.map(Number);
-    } else {
-      console.error('Invalid color format');
-      return [0, 0, 0]; // Default to black
+    if (color.startsWith('#')) {
+      const r = parseInt(color.slice(1, 3), 16);
+      const g = parseInt(color.slice(3, 5), 16);
+      const b = parseInt(color.slice(5, 7), 16);
+      return [r, g, b];
+    }
+    else {
+      const matchResult = color.match(/\d+/g);
+      if (matchResult) {
+        return matchResult.map(Number);
+      } else {
+        console.error('Invalid color format:', color);
+        return [0, 0, 0];
+      }
     }
   }
 

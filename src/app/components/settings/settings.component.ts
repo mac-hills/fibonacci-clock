@@ -1,9 +1,9 @@
 // src/app/components/settings/settings.component.ts
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {ColorService} from 'src/app/services/color.service';
-import {AnimationService} from 'src/app/services/animation.service';
-import {DisplayService} from 'src/app/services/display.service';
+import { Component, OnInit } from '@angular/core';
+import { ColorService } from 'src/app/services/color.service';
+import { AnimationService } from 'src/app/services/animation.service';
+import { DisplayService } from 'src/app/services/display.service';
+import { SettingsOverlayService } from "../../services/settings-overlay.service";
 
 @Component({
   selector: 'app-settings',
@@ -20,20 +20,44 @@ export class SettingsComponent implements OnInit {
     clockBackGroundColorArrayStartColor: 'Background Start Color',
     clockBackGroundColorArrayEndColor: 'Background End Color',
     secondsCounterArrayStartColor: 'Seconds Counter Start',
-    secondsCounterArrayEndColor: 'Seconds Counter End'
+    secondsCounterArrayEndColor: 'Seconds Counter End',
+    stripeColor: 'Stripe Color'
   };
 
-// Active tab state
+  timeColors = [
+    { key: 'colorWhenUsedForHoursAndMinutes' },
+    { key: 'colorWhenUsedForHours' },
+    { key: 'colorWhenUsedForMinutes' },
+    { key: 'colorWhenNotUsed' }
+  ];
+
+  secondsCounterColors = [
+    { key: 'secondsCounterArrayStartColor' },
+    { key: 'secondsCounterArrayEndColor' }
+  ];
+
+  backgroundColors = [
+    { key: 'clockBackGroundColorArrayStartColor' },
+    { key: 'clockBackGroundColorArrayEndColor' }
+  ];
+
   activeTab: string = 'displaySettings';
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
+  showSecondsCounter: boolean = true;
   spinSpeed: number = 60;
   stripesSpinSpeed: number = 60;
+  stripeWidth: number = 1.0;
   stripeColor: string = '#ffffff';
   stripeLength: number = 0.99;
   innerLength: number = 0.85;
-  constructor(private colorService: ColorService, private router: Router, private displayService: DisplayService, private animationService: AnimationService) {
-  }
+
+  constructor(
+    private colorService: ColorService,
+    public settingsOverlayService: SettingsOverlayService,
+    private displayService: DisplayService,
+    private animationService: AnimationService
+  ) {}
 
   ngOnInit(): void {
     this.clockColors = {...this.colorService.getClockColors()};
@@ -41,9 +65,13 @@ export class SettingsComponent implements OnInit {
     this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
     this.spinSpeed = this.animationService.getSpinSpeed();
     this.stripesSpinSpeed = this.animationService.getStripesSpinSpeed();
+    this.stripeWidth = this.displayService.getStripeWidth();
     this.stripeColor = this.displayService.getStripeColor();
     this.stripeLength = this.displayService.getStripeLength();
     this.innerLength = this.displayService.getStripeInnerLength();
+  }
+  updateStripeWidth(): void {
+    this.displayService.setStripeWidth(this.stripeWidth);
   }
   updateStripesSpinSpeed(): void {
     this.animationService.setStripesSpinSpeed(this.stripesSpinSpeed);
@@ -64,6 +92,7 @@ export class SettingsComponent implements OnInit {
   updateInnerLength(): void {
     this.displayService.setStripeInnerLength(this.innerLength);
   }
+
   toggleDigitalTime(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.showDigitalTime = checkbox.checked;
@@ -76,6 +105,12 @@ export class SettingsComponent implements OnInit {
     this.displayService.setCalculationPanelVisibility(this.showCalculationPanel);
   }
 
+  toggleSecondsCounter(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.showSecondsCounter = checkbox.checked;
+    this.displayService.setSecondsCounterVisibility(this.showSecondsCounter);
+  }
+
   updateSpinSpeed(): void {
     this.animationService.setSpinSpeed(this.spinSpeed);
   }
@@ -83,7 +118,8 @@ export class SettingsComponent implements OnInit {
   onColorChange(event: Event, colorKey: string): void {
     const input = event.target as HTMLInputElement;
     if (input && input.value) {
-      this.updateColor(colorKey, input.value);
+      this.clockColors[colorKey] = input.value;
+      this.colorService.updateColor(colorKey, input.value);
     }
   }
 
@@ -99,13 +135,18 @@ export class SettingsComponent implements OnInit {
 
   // Handle the promise returned by navigate
   backToClock(): void {
-    this.router.navigate(['/clock']).catch(err => {
-      console.error('Navigation failed:', err);
-    });
+    this.settingsOverlayService.hideSettings();
   }
 
   // Set the active tab
   setActiveTab(tab: string): void {
     this.activeTab = tab;
+  }
+
+  closeOnBackdropClick(event: MouseEvent): void {
+    // Check if the click was directly on the overlay, not on its children
+    if ((event.target as HTMLElement).classList.contains('settings-overlay')) {
+      this.settingsOverlayService.hideSettings();
+    }
   }
 }

@@ -1,23 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { interval } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color.service';
 import { AnimationService } from 'src/app/services/animation.service';
 import { DisplayService } from 'src/app/services/display.service';
+import { SettingsOverlayService } from 'src/app/services/settings-overlay.service';
 
 @Component({
   selector: 'app-clock',
   templateUrl: './clock.component.html',
   styleUrls: ['./clock.component.css']
 })
-export class ClockComponent implements OnInit {
-
-  constructor(private router: Router, private colorService: ColorService, private animationService: AnimationService, private displayService: DisplayService){}
+export class ClockComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
+  constructor(
+    private settingsOverlayService: SettingsOverlayService,
+    private colorService: ColorService,
+    private animationService: AnimationService,
+    private displayService: DisplayService
+  ){}
+  secondsColorArray: string[] = [];
+  backgroundColorArray: string[] = [];
+  stripeWidth: number = 1.0;
   stripeColor: string = 'white';
   stripeLength: number = 0.99;
   innerLength: number = 0.85;
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
+  showSecondsCounter: boolean = true;
   hoursValues: number[] = [];
   minutesValues: number[] = [];
   bothValues: number[] = [];
@@ -32,21 +41,84 @@ export class ClockComponent implements OnInit {
   colorWhenNotUsed: string = this.colorService.getClockColors()['colorWhenNotUsed'];
   secondsCounterArrayStartColor = this.colorService.getClockColors()['secondsCounterArrayStartColor'];
   secondsCounterArrayEndColor = this.colorService.getClockColors()['secondsCounterArrayEndColor'];
-
   // color(s) for seconds counter shape
   public secondsColor = '';
   // colors for second counter shape
-  private secondsColorArray = this.colorService.generateColorArray(
-    this.secondsCounterArrayStartColor,
-    this.secondsCounterArrayEndColor,
-    2
-    );
+  // private secondsColorArray = this.colorService.generateColorArray(
+  //   this.secondsCounterArrayStartColor,
+  //   this.secondsCounterArrayEndColor,
+  //   2
+  //   );
 
   ngOnInit() {
     this.showDigitalTime = this.displayService.isDigitalTimeVisible();
     this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
+    this.showSecondsCounter = this.displayService.isSecondsCounterVisible();
     const spinSpeed = this.animationService.getSpinSpeed();
     document.documentElement.style.setProperty('--spin-duration', `${spinSpeed}s`);
+    this.stripeWidth = this.displayService.getStripeWidth();
+    this.subscriptions.push(
+      this.colorService.colors$.subscribe(colors => {
+        this.colorWhenUsedForHoursAndMinutes = colors['colorWhenUsedForHoursAndMinutes'];
+        this.colorWhenUsedForHours = colors['colorWhenUsedForHours'];
+        this.colorWhenUsedForMinutes = colors['colorWhenUsedForMinutes'];
+        this.colorWhenNotUsed = colors['colorWhenNotUsed'];
+        this.secondsCounterArrayStartColor = colors['secondsCounterArrayStartColor'];
+        this.secondsCounterArrayEndColor = colors['secondsCounterArrayEndColor'];
+         this.secondsColorArray = this.colorService.getColorsArryForSecondsCounterShape();
+        this.backgroundColorArray = this.colorService.getColorsArryForBackground();
+      })
+    );
+    this.subscriptions.push(
+      this.displayService.digitalTime$.subscribe(visible => {
+        this.showDigitalTime = visible;
+      })
+    );
+    this.subscriptions.push(
+      this.displayService.calculationPanel$.subscribe(visible => {
+        this.showCalculationPanel = visible;
+      })
+    );
+    this.subscriptions.push(
+      this.animationService.spinSpeed$.subscribe(speed => {
+        document.documentElement.style.setProperty('--spin-duration', `${speed}s`);
+      })
+    );
+    this.subscriptions.push(
+      this.displayService.stripeColor$.subscribe(color => {
+        this.stripeColor = color;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.stripeLength$.subscribe(length => {
+        this.stripeLength = length;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.stripeInnerLength$.subscribe(length => {
+        this.innerLength = length;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.stripeWidth$.subscribe(width => {
+        this.stripeWidth = width;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.secondsCounter$.subscribe(visible => {
+        this.showSecondsCounter = visible;
+      })
+    );
+
+    this.subscriptions.push(
+      this.animationService.stripesSpinSpeed$.subscribe(speed => {
+        document.documentElement.style.setProperty('--stripes-spin-duration', `${speed}s`);
+      })
+    );
     const stripesSpinSpeed = this.animationService.getStripesSpinSpeed();
     document.documentElement.style.setProperty('--stripes-spin-duration', `${stripesSpinSpeed}s`);
     this.stripeColor = this.displayService.getStripeColor();
@@ -55,9 +127,14 @@ export class ClockComponent implements OnInit {
     interval(1000).subscribe(() => {
       this.updateCurrentTime();
       this.setClockBackgroundColors();
-      this.secondsColor=this.colorService.getNextColorFromSecondsCounter(this.secondsColorArray);
+      document.body.style.backgroundColor = this.colorService.getNextColorForBackground();
+      this.secondsColor = this.colorService.getNextColorFromSecondsCounter(this.secondsColorArray);
       this.updateCalculationValues();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   formatValues(values: number[]): string {
@@ -111,14 +188,10 @@ export class ClockComponent implements OnInit {
     if (this.fib34UsedForBoth) this.bothValues.push(34);
   }
 
-  onClockContainerClick() {
-    this.router.navigate(['/tutorial']);
-  }
+
 
   goToSettings() {
-    this.router.navigate(['/settings']).catch(err => {
-      console.error('Navigation failed:', err);
-    });
+    this.settingsOverlayService.showSettings();
   }
   updateCurrentTime(): void {
     const now = new Date();
@@ -136,6 +209,7 @@ export class ClockComponent implements OnInit {
     this.setStatusFib13();
     this.setStatusFib21();
     this.setStatusFib34();
+    document.body.style.backgroundColor = this.colorService.getNextColorForBackground();
   }
 
   fib1UsedForMinutes : boolean = false;
