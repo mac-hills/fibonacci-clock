@@ -1,7 +1,5 @@
 <div class="settings-overlay" *ngIf="settingsOverlayService.visibility$ | async" (click)="closeOnBackdropClick($event)">
   <div class="settings-container">
-    <h1>Settings</h1>
-
     <!-- Tab Menu -->
     <div class="tab-menu">
       <button [class.active]="activeTab === 'colorSettings'" (click)="setActiveTab('colorSettings')">
@@ -13,7 +11,6 @@
       <button [class.active]="activeTab === 'readingClock'" (click)="setActiveTab('readingClock')">
         Reading the Clock
       </button>
-
     </div>
 
     <!-- Tab Content -->
@@ -87,137 +84,163 @@
 
       <!-- Display Settings Tab -->
       <div *ngIf="activeTab === 'displaySettings'">
-        <h2>Display Settings</h2>
 
-        <div class="switch-container">
-          <label class="switch-label">
-            <span>Show Digital Time</span>
-            <div class="switch">
-              <input
-                type="checkbox"
-                [checked]="showDigitalTime"
-                (change)="toggleDigitalTime($event)">
-              <span class="slider round"></span>
+
+        <!-- Show Seconds Counter -->
+        <div class="color-card">
+          <div class="setting-content">
+            <div class="setting-label">Show Seconds counter</div>
+            <div class="setting-description">
+              Show or hide the seconds counter circle that changes color every second
             </div>
+          </div>
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="showSecondsCounter"
+              (change)="toggleSecondsCounter($event)">
+            <span class="slider round"></span>
           </label>
-          <p class="setting-description">
-            Show or hide the digital time display in the top-left corner of the clock
-          </p>
         </div>
 
-        <div class="switch-container">
-          <label class="switch-label">
-            <span>Show Calculation Panel</span>
-            <div class="switch">
-              <input
-                type="checkbox"
-                [checked]="showCalculationPanel"
-                (change)="toggleCalculationPanel($event)">
-              <span class="slider round"></span>
+        <!-- Circle Rotation -->
+        <div class="color-card slider-card">
+          <div class="setting-content">
+            <div class="setting-label">Circle Rotation</div>
+            <div class="setting-description">
+              Time for the circles to complete a full clockwise rotation
             </div>
-          </label>
-          <p class="setting-description">
-            Show or hide a panel that explains how the current time is calculated using Fibonacci numbers
-          </p>
-        </div>
-
-
-        <div class="switch-container">
-          <label class="switch-label">
-            <span>Show Seconds counter</span>
-            <div class="switch">
-              <input
-                type="checkbox"
-                [checked]="showSecondsCounter"
-                (change)="toggleSecondsCounter($event)">
-              <span class="slider round"></span>
-            </div>
-          </label>
-          <p class="setting-description">
-            Show or hide the seconds counter circle that changes color every second
-          </p>
-        </div>
-
-        <!-- Animation Settings Section -->
-        <h3 class="settings-category-header">Animation Settings</h3>
-
-        <!-- Clock Rotation Controls -->
-        <div class="slider-container">
-          <label for="spin-speed">Circle Rotation: {{ spinSpeed }} seconds</label>
+          </div>
+          <div class="setting-value">{{ spinSpeed }} seconds</div>
           <input
             type="range"
             id="spin-speed"
+            class="full-width-slider"
             min="1"
             max="3600"
             step="1"
             [(ngModel)]="spinSpeed"
             (input)="updateSpinSpeed()">
-          <p class="setting-description">Time for the circles to complete a full clockwise rotation</p>
         </div>
 
         <!-- Stripes Rotation Controls -->
-        <div class="slider-container">
-          <label for="stripes-spin-speed">Stripe Rotation: {{stripesSpinSpeed}} seconds</label>
+        <div class="color-card slider-card">
+          <div class="setting-content">
+            <div class="setting-label">Stripe Rotation</div>
+            <div class="setting-description">
+              Time for the stripes to complete a full counter-clockwise rotation
+            </div>
+          </div>
+          <div class="setting-value">{{ stripesSpinSpeed }} seconds</div>
           <input
             type="range"
             id="stripes-spin-speed"
+            class="full-width-slider"
             min="1"
             max="3600"
             step="1"
             [(ngModel)]="stripesSpinSpeed"
             (input)="updateStripesSpinSpeed()">
-          <p class="setting-description">Time for the stripes to complete a full counter-clockwise rotation</p>
         </div>
 
-        <!-- Stripe Appearance Section -->
-        <h3 class="settings-category-header">Stripe Appearance</h3>
-
         <!-- Stripe Extension -->
-        <div class="slider-container">
-          <label for="stripe-length">Stripe Extension: {{(stripeLength * 100) | number:'1.0-0'}}%</label>
+        <div class="color-card slider-card">
+          <div class="setting-content">
+            <div class="setting-label">Stripe Extension</div>
+            <div class="setting-description">
+              How far stripes extend toward the edge of each circle
+            </div>
+          </div>
+          <div class="setting-value">{{ (stripeLength * 100) | number:'1.0-0' }}%</div>
           <input
             type="range"
             id="stripe-length"
+            class="full-width-slider"
             min="0.01"
             max="1"
             step="0.01"
             [(ngModel)]="stripeLength"
             (input)="updateStripeLength()">
-          <p class="setting-description">How far stripes extend toward the edge of each circle</p>
         </div>
 
         <!-- Stripe Depth -->
-        <div class="slider-container">
-          <label for="inner-length">Stripe Depth: {{(innerLength * 100) | number:'1.0-0'}}%</label>
+        <div class="color-card slider-card">
+          <div class="setting-content">
+            <div class="setting-label">Stripe Depth</div>
+            <div class="setting-description">
+              How far stripes extend toward the center of each circle
+            </div>
+          </div>
+          <div class="setting-value">{{ (innerLength * 100) | number:'1.0-0' }}%</div>
           <input
             type="range"
             id="inner-length"
+            class="full-width-slider"
             min="0.01"
             max="1"
             step="0.01"
             [(ngModel)]="innerLength"
             (input)="updateInnerLength()">
-          <p class="setting-description">How far stripes extend toward the center of each circle</p>
         </div>
 
         <!-- Stripe Thickness -->
-        <div class="slider-container">
-          <label for="stripe-width">Stripe Thickness: {{stripeWidth | number:'1.1-1'}}</label>
+        <div class="color-card slider-card">
+          <div class="setting-content">
+            <div class="setting-label">Stripe Thickness</div>
+            <div class="setting-description">
+              The width/thickness of each stripe line
+            </div>
+          </div>
+          <div class="setting-value">{{ stripeWidth | number:'1.1-1' }}</div>
           <input
             type="range"
             id="stripe-width"
+            class="full-width-slider"
             min="0"
             max="4.2"
             step="0.01"
             [(ngModel)]="stripeWidth"
             (input)="updateStripeWidth()">
-          <p class="setting-description">The width/thickness of each stripe line</p>
         </div>
       </div>
 
       <!-- Reading the Clock Tab -->
       <div *ngIf="activeTab === 'readingClock'">
-        <div class="switch-container">
+
+
+        <div class="color-card">
+          <div class="setting-content">
+            <div class="setting-label">Show Digital Time</div>
+            <div class="setting-description">
+              Show or hide the digital time display in the top-left corner of the clock
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="showDigitalTime"
+              (change)="toggleDigitalTime($event)">
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="color-card">
+          <div class="setting-content">
+            <div class="setting-label">Show Calculation Panel</div>
+            <div class="setting-description">
+              Show or hide a panel that explains how the current time is calculated using Fibonacci numbers
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="showCalculationPanel"
+              (change)="toggleCalculationPanel($event)">
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="info-container">
           <h2>Understanding Time with the Fibonacci Clock</h2>
           <p>
             The Fibonacci Clock is based on the mathematical sequence created by the
@@ -227,7 +250,7 @@
             34</strong>.
           </p>
         </div>
-        <div class="switch-container">
+        <div class="info-container">
           <h3>Shapes</h3>
           <p>
             The clock display consists of shapes, each sized according to the Fibonacci numbers:
@@ -237,7 +260,7 @@
             These shapes are displayed on the clock face and are color-coded to represent hours, minutes, and seconds.
           </p>
         </div>
-        <div class="switch-container">
+        <div class="info-container">
           <h3>Calculate Time</h3>
           <p>
             <strong>Hour:</strong> Add up the values of the shapes depicted in the
@@ -255,13 +278,16 @@
             to its original color.
           </p>
         </div>
-        <h3>Practice Reading the Clock</h3>
-        <p>
-          If you're new to the Fibonacci Clock, you can enable the calculation panel in the display settings tab in the
-          menu at the top. This
-          panel shows the calculations for the current time, making it easier to practice and learn how to read the
-          clock.
-        </p>
+        <div class="info-container">
+          <h3>Practice Reading the Clock</h3>
+          <p>
+            Use the switches to help you learn to read the Fibonacci clock. The Digital Time Switch toggles a digital
+            time display (top left corner) that shows the current time.
+            The Calculation Panel Switch toggles a panel with a breakdown of the current time calculations.
+            The calculation panel is especially helpful for beginners to understand how the colored circles translate to
+            the current time.
+          </p>
+        </div>
       </div>
     </div>
   </div>

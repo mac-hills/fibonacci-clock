@@ -8,7 +8,6 @@ import { ClockComponent } from './components/clock/clock.component';
 import { ColorService } from './services/color.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { SettingsComponent } from './components/settings/settings.component';
-import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {FormsModule} from "@angular/forms";
 import { StripedCircleComponent } from './components/striped-circle/striped-circle.component';
@@ -17,7 +16,6 @@ import { StripedCircleComponent } from './components/striped-circle/striped-circ
   declarations: [
     AppComponent,
     ClockComponent,
-    TutorialComponent,
     SettingsComponent,
     StripedCircleComponent
   ],

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColorService } from './services/color.service';
 import { interval } from 'rxjs';
+import {SettingsOverlayService} from "./services/settings-overlay.service";
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,15 @@ import { interval } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  settingsVisible = false;
   constructor(
-    private router: Router, 
-    private colorService: ColorService,  
+    private settingsOverlayService: SettingsOverlayService,
+    private colorService: ColorService,
     private renderer: Renderer2,
     private el: ElementRef){
+    this.settingsOverlayService.visibility$.subscribe(visible => {
+      this.settingsVisible = visible;
+    });
     }
     currentHour!: number;
   ngOnInit(): void {
@@ -22,11 +26,8 @@ export class AppComponent implements OnInit {
       this.setBodyBackgroundColor();
     });
   }
-    
-  
-  onClockContainerClick() {
-    this.router.navigate(['/tutorial']);
-  }
+
+
 
   setBodyBackgroundColor() {
     const body = this.el.nativeElement.ownerDocument.body;
