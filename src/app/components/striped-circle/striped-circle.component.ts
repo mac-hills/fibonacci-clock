@@ -12,6 +12,7 @@ export class StripedCircleComponent implements OnInit, OnChanges {
   @Input() stripeLength: number = 0.99; // Relative stripe outer length (default: 0.99)
   @Input() innerLength: number = 0.85; // Relative stripe inner length (default: 0.85)
   @Input() strokeWidth: number = 1.0; // Stripe thickness (default: 1.0)
+  @Input() showShadow: boolean = false;
 
   stripes: { x1: number; y1: number; x2: number; y2: number }[] = [];
 

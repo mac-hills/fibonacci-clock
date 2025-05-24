@@ -27,6 +27,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
   showSecondsCounter: boolean = true;
+  showStripeShadow: boolean = false;
   hoursValues: number[] = [];
   minutesValues: number[] = [];
   bothValues: number[] = [];
@@ -57,6 +58,7 @@ export class ClockComponent implements OnInit, OnDestroy {
     const spinSpeed = this.animationService.getSpinSpeed();
     document.documentElement.style.setProperty('--spin-duration', `${spinSpeed}s`);
     this.stripeWidth = this.displayService.getStripeWidth();
+    this.showStripeShadow = this.displayService.isStripeShadowEnabled();
     this.subscriptions.push(
       this.colorService.colors$.subscribe(colors => {
         this.colorWhenUsedForHoursAndMinutes = colors['colorWhenUsedForHoursAndMinutes'];
@@ -89,7 +91,11 @@ export class ClockComponent implements OnInit, OnDestroy {
         this.stripeColor = color;
       })
     );
-
+    this.subscriptions.push(
+      this.displayService.stripeShadow$.subscribe(enabled => {
+        this.showStripeShadow = enabled;
+      })
+    );
     this.subscriptions.push(
       this.displayService.stripeLength$.subscribe(length => {
         this.stripeLength = length;

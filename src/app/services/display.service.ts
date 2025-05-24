@@ -7,6 +7,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class DisplayService {
   private readonly SHOW_DIGITAL_TIME_KEY = 'fibonacciClockShowDigitalTime';
+  private readonly STRIPE_SHADOW_KEY = 'stripeShadow';
+  private defaultShowStripeShadow: boolean = false;
   private readonly DIGITAL_TIME_KEY = 'showDigitalTime';
   private readonly CALCULATION_PANEL_KEY = 'showCalculationPanel';
   private readonly SECONDS_COUNTER_KEY = 'showSecondsCounter';
@@ -19,7 +21,8 @@ export class DisplayService {
   private defaultShowDigitalTime: boolean = true;
   private defaultShowCalculationPanel: boolean = false;
   private defaultShowSecondsCounter: boolean = true;
-
+  private stripeShadowSubject = new BehaviorSubject<boolean>(false);
+  public stripeShadow$: Observable<boolean> = this.stripeShadowSubject.asObservable();
   private digitalTimeSubject = new BehaviorSubject<boolean>(false);
   public digitalTime$: Observable<boolean> = this.digitalTimeSubject.asObservable();
 
@@ -49,7 +52,9 @@ export class DisplayService {
     const stripeLength = this.getStripeLength();
     const stripeInnerLength = this.getStripeInnerLength();
     const stripeWidth = this.getStripeWidth();
+    const showStripeShadow = this.isStripeShadowEnabled();
 
+    this.stripeShadowSubject.next(showStripeShadow);
     this.secondsCounterSubject.next(showSecondsCounter);
     this.digitalTimeSubject.next(showDigitalTime);
     this.calculationPanelSubject.next(showCalculationPanel);
@@ -93,6 +98,14 @@ export class DisplayService {
   setSecondsCounterVisibility(isVisible: boolean): void {
     this.localStorageService.setItem(this.SECONDS_COUNTER_KEY, isVisible);
     this.secondsCounterSubject.next(isVisible); // Update the correct subject
+  }
+  isStripeShadowEnabled(): boolean {
+    return this.localStorageService.getItem<boolean>(this.STRIPE_SHADOW_KEY, this.defaultShowStripeShadow);
+  }
+
+  setStripeShadow(enabled: boolean): void {
+    this.localStorageService.setItem(this.STRIPE_SHADOW_KEY, enabled);
+    this.stripeShadowSubject.next(enabled);
   }
 
   getStripeColor(): string {

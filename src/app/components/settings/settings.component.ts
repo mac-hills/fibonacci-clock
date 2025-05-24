@@ -45,6 +45,7 @@ export class SettingsComponent implements OnInit {
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
   showSecondsCounter: boolean = true;
+  showStripeShadow: boolean = false;
   spinSpeed: number = 60;
   stripesSpinSpeed: number = 60;
   stripeWidth: number = 1.0;
@@ -63,6 +64,7 @@ export class SettingsComponent implements OnInit {
     this.clockColors = {...this.colorService.getClockColors()};
     this.showDigitalTime = this.displayService.isDigitalTimeVisible();
     this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
+    this.showStripeShadow = this.displayService.isStripeShadowEnabled();
     this.spinSpeed = this.animationService.getSpinSpeed();
     this.stripesSpinSpeed = this.animationService.getStripesSpinSpeed();
     this.stripeWidth = this.displayService.getStripeWidth();
@@ -92,7 +94,11 @@ export class SettingsComponent implements OnInit {
   updateInnerLength(): void {
     this.displayService.setStripeInnerLength(this.innerLength);
   }
-
+  toggleStripeShadow(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.showStripeShadow = checkbox.checked;
+    this.displayService.setStripeShadow(this.showStripeShadow);
+  }
   toggleDigitalTime(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.showDigitalTime = checkbox.checked;
