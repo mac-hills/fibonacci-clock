@@ -28,7 +28,10 @@ export class SettingsComponent implements OnInit {
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
   spinSpeed: number = 60;
-
+  stripesSpinSpeed: number = 60;
+  stripeColor: string = '#ffffff';
+  stripeLength: number = 0.99;
+  innerLength: number = 0.85;
   constructor(private colorService: ColorService, private router: Router, private displayService: DisplayService, private animationService: AnimationService) {
   }
 
@@ -37,8 +40,30 @@ export class SettingsComponent implements OnInit {
     this.showDigitalTime = this.displayService.isDigitalTimeVisible();
     this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
     this.spinSpeed = this.animationService.getSpinSpeed();
+    this.stripesSpinSpeed = this.animationService.getStripesSpinSpeed();
+    this.stripeColor = this.displayService.getStripeColor();
+    this.stripeLength = this.displayService.getStripeLength();
+    this.innerLength = this.displayService.getStripeInnerLength();
+  }
+  updateStripesSpinSpeed(): void {
+    this.animationService.setStripesSpinSpeed(this.stripesSpinSpeed);
   }
 
+  updateStripeColor(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input && input.value) {
+      this.stripeColor = input.value;
+      this.displayService.setStripeColor(this.stripeColor);
+    }
+  }
+
+  updateStripeLength(): void {
+    this.displayService.setStripeLength(this.stripeLength);
+  }
+
+  updateInnerLength(): void {
+    this.displayService.setStripeInnerLength(this.innerLength);
+  }
   toggleDigitalTime(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.showDigitalTime = checkbox.checked;

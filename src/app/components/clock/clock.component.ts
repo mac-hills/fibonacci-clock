@@ -13,12 +13,16 @@ import { DisplayService } from 'src/app/services/display.service';
 export class ClockComponent implements OnInit {
 
   constructor(private router: Router, private colorService: ColorService, private animationService: AnimationService, private displayService: DisplayService){}
+  stripeColor: string = 'white';
+  stripeLength: number = 0.99;
+  innerLength: number = 0.85;
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
   hoursValues: number[] = [];
   minutesValues: number[] = [];
   bothValues: number[] = [];
    // clock colors
+  isWhiteDial: boolean = true;
   currentHour!: number;
   currentMinutes!: number;
   currentSeconds!: number;
@@ -43,6 +47,11 @@ export class ClockComponent implements OnInit {
     this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
     const spinSpeed = this.animationService.getSpinSpeed();
     document.documentElement.style.setProperty('--spin-duration', `${spinSpeed}s`);
+    const stripesSpinSpeed = this.animationService.getStripesSpinSpeed();
+    document.documentElement.style.setProperty('--stripes-spin-duration', `${stripesSpinSpeed}s`);
+    this.stripeColor = this.displayService.getStripeColor();
+    this.stripeLength = this.displayService.getStripeLength();
+    this.innerLength = this.displayService.getStripeInnerLength();
     interval(1000).subscribe(() => {
       this.updateCurrentTime();
       this.setClockBackgroundColors();

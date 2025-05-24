@@ -5,18 +5,26 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root'
 })
 export class AnimationService {
-  private readonly SPIN_SPEED_KEY = 'fibonacciClockSpinSpeed';
-  private defaultSpinSpeed = 60; // Default 60 seconds for full rotation
+  private readonly SPIN_SPEED_KEY = 'spinSpeed';
+  private readonly STRIPES_SPIN_SPEED_KEY = 'stripesSpinSpeed';
 
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService) {}
 
   getSpinSpeed(): number {
-    return this.localStorageService.getItem<number>(this.SPIN_SPEED_KEY, this.defaultSpinSpeed);
+    return this.localStorageService.getItem<number>(this.SPIN_SPEED_KEY, 60);
   }
 
-  setSpinSpeed(speed: number): void {
-    this.localStorageService.setItem(this.SPIN_SPEED_KEY, speed);
-    // Update CSS variable for immediate effect
-    document.documentElement.style.setProperty('--spin-duration', `${speed}s`);
+  setSpinSpeed(seconds: number): void {
+    this.localStorageService.setItem(this.SPIN_SPEED_KEY, seconds);
+    document.documentElement.style.setProperty('--spin-duration', `${seconds}s`);
+  }
+
+  getStripesSpinSpeed(): number {
+    return this.localStorageService.getItem<number>(this.STRIPES_SPIN_SPEED_KEY, 60);
+  }
+
+  setStripesSpinSpeed(seconds: number): void {
+    this.localStorageService.setItem(this.STRIPES_SPIN_SPEED_KEY, seconds);
+    document.documentElement.style.setProperty('--stripes-spin-duration', `${seconds}s`);
   }
 }

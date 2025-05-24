@@ -1,0 +1,16 @@
+<svg
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+>
+  <!-- Stripes -->
+  <line
+    *ngFor="let stripe of stripes"
+    [attr.x1]="stripe.x1"
+    [attr.y1]="stripe.y1"
+    [attr.x2]="stripe.x2"
+    [attr.y2]="stripe.y2"
+    [attr.stroke]="stripeColor"
+    stroke-width="02"
+  />
+</svg>

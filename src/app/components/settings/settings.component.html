@@ -83,7 +83,7 @@
             type="range"
             id="spin-speed"
             min="1"
-            max="120"
+            max="3600"
             step="1"
             [(ngModel)]="spinSpeed"
             (input)="updateSpinSpeed()">
@@ -94,6 +94,65 @@
       <div class="actions">
         <button (click)="backToClock()">Back to Clock</button>
       </div>
+    </div>
+    <div class="animation-controls">
+      <h3>Stripes Rotation Speed</h3>
+      <div class="slider-container">
+        <label for="stripes-spin-speed">Time it takes stripes to make a full rotation: {{stripesSpinSpeed}} seconds</label>
+        <input
+          type="range"
+          id="stripes-spin-speed"
+          min="1"
+          max="3600"
+          step="1"
+          [(ngModel)]="stripesSpinSpeed"
+          (input)="updateStripesSpinSpeed()">
+        <p class="slider-description">Adjust how fast the stripes rotate counterclockwise (lower = faster spin).</p>
+      </div>
+    </div>
+
+    <!-- Stripe Appearance -->
+    <h3>Stripe Appearance</h3>
+    <div class="color-setting">
+      <label for="stripe-color">Stripe Color</label>
+      <div class="color-input-container">
+        <input
+          id="stripe-color"
+          type="color"
+          [value]="stripeColor"
+          (change)="updateStripeColor($event)">
+        <span class="color-value">{{stripeColor}}</span>
+        <div class="color-preview" [style.background-color]="stripeColor"></div>
+      </div>
+    </div>
+    <div class="slider-container">
+      <label for="stripe-length">Stripe Outer Length: {{(stripeLength * 100) | number:'1.0-0'}}%</label>
+      <input
+        type="range"
+        id="stripe-length"
+        min="0.9"
+        max="1"
+        step="0.01"
+        [(ngModel)]="stripeLength"
+        (input)="updateStripeLength()">
+      <p class="slider-description">Adjust how far the stripes extend from the center (higher = longer stripes).</p>
+    </div>
+
+    <div class="slider-container">
+      <label for="inner-length">Stripe Inner Length: {{(innerLength * 100) | number:'1.0-0'}}%</label>
+      <input
+        type="range"
+        id="inner-length"
+        min="0.7"
+        max="0.95"
+        step="0.01"
+        [(ngModel)]="innerLength"
+        (input)="updateInnerLength()">
+      <p class="slider-description">Adjust how far the stripes extend toward the center (higher = longer stripes).</p>
+    </div>
+
+    <div class="actions">
+      <button (click)="backToClock()">Back to Clock</button>
     </div>
     <!-- Reading the Clock Tab -->
     <div *ngIf="activeTab === 'readingClock'">
