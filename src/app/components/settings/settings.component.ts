@@ -1,5 +1,5 @@
 // src/app/components/settings/settings.component.ts
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color.service';
 import { AnimationService } from 'src/app/services/animation.service';
 import { DisplayService } from 'src/app/services/display.service';
@@ -55,10 +55,16 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private colorService: ColorService,
+    private ngZone: NgZone,
     public settingsOverlayService: SettingsOverlayService,
     private displayService: DisplayService,
     private animationService: AnimationService
-  ) {}
+  ) {this.settingsOverlayService.visibility$.subscribe(visible => {
+    if (visible) {
+      // Update state when settings panel becomes visible
+      this.showSecondsCounter = this.displayService.isSecondsCounterVisible();
+    }
+  });}
 
   ngOnInit(): void {
     this.clockColors = {...this.colorService.getClockColors()};
@@ -72,12 +78,79 @@ export class SettingsComponent implements OnInit {
     this.stripeLength = this.displayService.getStripeLength();
     this.innerLength = this.displayService.getStripeInnerLength();
   }
-  updateStripeWidth(): void {
-    this.displayService.setStripeWidth(this.stripeWidth);
+  ngAfterViewInit(): void {
+    // Initialize sliders after view is initialized
+    setTimeout(() => this.initSliders(), 100);
   }
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
+    // Initialize sliders after tab content is rendered
+    setTimeout(() => this.initSliders(), 100);
+  }
+
+  // Update slider functions with fill effect updating
+  updateSpinSpeed(): void {
+    this.animationService.setSpinSpeed(this.spinSpeed);
+    this.updateSliderFill('spin-speed');
+  }
+
   updateStripesSpinSpeed(): void {
     this.animationService.setStripesSpinSpeed(this.stripesSpinSpeed);
+    this.updateSliderFill('stripes-spin-speed');
   }
+
+  updateStripeLength(): void {
+    this.displayService.setStripeLength(this.stripeLength);
+    this.updateSliderFill('stripe-length');
+  }
+
+  updateInnerLength(): void {
+    this.displayService.setStripeInnerLength(this.innerLength);
+    this.updateSliderFill('inner-length');
+  }
+
+  updateStripeWidth(): void {
+    this.displayService.setStripeWidth(this.stripeWidth);
+    this.updateSliderFill('stripe-width');
+  }
+
+  // Helper method to update a specific slider's fill
+  updateSliderFill(sliderId: string): void {
+    const slider = document.getElementById(sliderId) as HTMLInputElement;
+    if (slider) {
+      const value = (parseInt(slider.value) - parseInt(slider.min)) /
+        (parseInt(slider.max) - parseInt(slider.min)) * 100;
+      slider.style.setProperty('--slider-fill', `${value}%`);
+    }
+  }
+
+  // Initialize all sliders
+  initSliders(): void {
+    this.ngZone.runOutsideAngular(() => {
+      const sliders = document.querySelectorAll('.full-width-slider') as NodeListOf<HTMLInputElement>;
+
+      sliders.forEach(slider => {
+        // Set initial position
+        const value = (parseFloat(slider.value) - parseFloat(slider.min)) /
+          (parseFloat(slider.max) - parseFloat(slider.min)) * 100;
+        slider.style.setProperty('--slider-fill', `${value}%`);
+
+        // Remove old event listeners to avoid duplicates
+        slider.removeEventListener('input', this.handleSliderInput);
+
+        // Add new event listener
+        slider.addEventListener('input', this.handleSliderInput);
+      });
+    });
+  }
+
+  // Handler for slider input events
+  handleSliderInput = (event: Event): void => {
+    const slider = event.target as HTMLInputElement;
+    const value = (parseFloat(slider.value) - parseFloat(slider.min)) /
+      (parseFloat(slider.max) - parseFloat(slider.min)) * 100;
+    slider.style.setProperty('--slider-fill', `${value}%`);
+  };
 
   updateStripeColor(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -87,13 +160,8 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  updateStripeLength(): void {
-    this.displayService.setStripeLength(this.stripeLength);
-  }
 
-  updateInnerLength(): void {
-    this.displayService.setStripeInnerLength(this.innerLength);
-  }
+
   toggleStripeShadow(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.showStripeShadow = checkbox.checked;
@@ -117,9 +185,6 @@ export class SettingsComponent implements OnInit {
     this.displayService.setSecondsCounterVisibility(this.showSecondsCounter);
   }
 
-  updateSpinSpeed(): void {
-    this.animationService.setSpinSpeed(this.spinSpeed);
-  }
 
   onColorChange(event: Event, colorKey: string): void {
     const input = event.target as HTMLInputElement;
@@ -137,6 +202,8 @@ export class SettingsComponent implements OnInit {
   resetColors(): void {
     this.colorService.resetColors();
     this.clockColors = {...this.colorService.getClockColors()};
+    this.displayService.setStripeColor('#ffffff');
+    this.stripeColor = '#ffffff';
   }
 
   // Handle the promise returned by navigate
@@ -144,10 +211,6 @@ export class SettingsComponent implements OnInit {
     this.settingsOverlayService.hideSettings();
   }
 
-  // Set the active tab
-  setActiveTab(tab: string): void {
-    this.activeTab = tab;
-  }
 
   closeOnBackdropClick(event: MouseEvent): void {
     // Check if the click was directly on the overlay, not on its children
@@ -155,4 +218,5 @@ export class SettingsComponent implements OnInit {
       this.settingsOverlayService.hideSettings();
     }
   }
+
 }

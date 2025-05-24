@@ -197,7 +197,7 @@ export class ClockComponent implements OnInit, OnDestroy {
 
 
   goToSettings() {
-    this.settingsOverlayService.showSettings();
+    this.settingsOverlayService.toggleSettings();
   }
   updateCurrentTime(): void {
     const now = new Date();

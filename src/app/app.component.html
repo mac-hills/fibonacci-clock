@@ -1,3 +1,8 @@
-
-<router-outlet></router-outlet>
-<app-settings></app-settings>
+<div class="app-container" [class.settings-hidden]="!settingsVisible">
+  <div class="settings-panel" *ngIf="settingsVisible">
+    <app-settings></app-settings>
+  </div>
+  <div class="clock-panel" >
+    <app-clock></app-clock>
+  </div>
+</div>
