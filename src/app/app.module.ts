@@ -11,13 +11,15 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {FormsModule} from "@angular/forms";
+import { StripedCircleComponent } from './components/striped-circle/striped-circle.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClockComponent,
     TutorialComponent,
-    SettingsComponent
+    SettingsComponent,
+    StripedCircleComponent
   ],
     imports: [
         BrowserModule,

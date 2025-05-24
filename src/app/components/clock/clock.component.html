@@ -1,27 +1,36 @@
-<div class="clock-window">
+<div class="clock-window" (click)="goToSettings()">
   <!-- digital time section -->
   <div class="digital-time" *ngIf="showDigitalTime">
     {{ currentHour | number:'2.0-0' }}:{{ currentMinutes | number:'2.0-0' }}:{{ currentSeconds | number:'2.0-0' }}
   </div>
 
-  <!--  clock section -->
-  <div class="clock-container " (click)="goToSettings()">
+  <!-- clock section -->
+  <div class="clock-container" >
     <div class="fib-shapes container" id="fib34" [ngStyle]="{'background-color': fib34BackgroundColor}">
+      <app-striped-circle [numStripes]="34" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
       <div class="fib-shapes container" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
+        <app-striped-circle [numStripes]="21" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
         <div class="fib-shapes container" id="fib13" [ngStyle]="{'background-color': fib13BackgroundColor}">
+          <app-striped-circle [numStripes]="13" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
           <div class="fib-shapes container" id="fib8" [ngStyle]="{'background-color': fib8BackgroundColor}">
+            <app-striped-circle [numStripes]="8" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
             <div class="fib-shapes container" id="fib5" [ngStyle]="{'background-color': fib5BackgroundColor}">
+              <app-striped-circle [numStripes]="5" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
               <div class="fib-shapes container" id="fib3" [ngStyle]="{'background-color': fib3BackgroundColor}">
+                <app-striped-circle [numStripes]="3" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
                 <div class="fib-shapes container" id="fib2" [ngStyle]="{'background-color': fib2BackgroundColor}">
-                  <div class="fib-shapes container" id="fib1"
-                       [ngStyle]="{'background-color': fib1BackgroundColor}"></div>
+                  <app-striped-circle [numStripes]="2" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
+                  <div class="fib-shapes container" id="fib1" [ngStyle]="{'background-color': fib1BackgroundColor}">
+                    <app-striped-circle [numStripes]="1" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="fib-shapes container" id="fibsec" [style.background-color]="secondsColor"></div>
+
+      <div  *ngIf="showSecondsCounter"  class="fib-shapes container" id="fibsec" [style.background-color]="secondsColor"></div>
     </div>
   </div>
 

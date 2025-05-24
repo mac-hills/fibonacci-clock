@@ -20,11 +20,19 @@ export class ClockComponent implements OnInit, OnDestroy {
   ){}
   secondsColorArray: string[] = [];
   backgroundColorArray: string[] = [];
+  stripeWidth: number = 1.0;
+  stripeColor: string = 'white';
+  stripeLength: number = 0.99;
+  innerLength: number = 0.85;
   showDigitalTime: boolean = true;
   showCalculationPanel: boolean = false;
+  showSecondsCounter: boolean = true;
+  showStripeShadow: boolean = false;
   hoursValues: number[] = [];
   minutesValues: number[] = [];
   bothValues: number[] = [];
+   // clock colors
+  isWhiteDial: boolean = true;
   currentHour!: number;
   currentMinutes!: number;
   currentSeconds!: number;
@@ -46,8 +54,11 @@ export class ClockComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showDigitalTime = this.displayService.isDigitalTimeVisible();
     this.showCalculationPanel = this.displayService.isCalculationPanelVisible();
+    this.showSecondsCounter = this.displayService.isSecondsCounterVisible();
     const spinSpeed = this.animationService.getSpinSpeed();
     document.documentElement.style.setProperty('--spin-duration', `${spinSpeed}s`);
+    this.stripeWidth = this.displayService.getStripeWidth();
+    this.showStripeShadow = this.displayService.isStripeShadowEnabled();
     this.subscriptions.push(
       this.colorService.colors$.subscribe(colors => {
         this.colorWhenUsedForHoursAndMinutes = colors['colorWhenUsedForHoursAndMinutes'];
@@ -56,12 +67,7 @@ export class ClockComponent implements OnInit, OnDestroy {
         this.colorWhenNotUsed = colors['colorWhenNotUsed'];
         this.secondsCounterArrayStartColor = colors['secondsCounterArrayStartColor'];
         this.secondsCounterArrayEndColor = colors['secondsCounterArrayEndColor'];
-        // this.secondsColorArray = this.colorService.generateColorArray(
-        //   this.secondsCounterArrayStartColor,
-        //   this.secondsCounterArrayEndColor,
-        //   2
-        // );
-        this.secondsColorArray = this.colorService.getColorsArryForSecondsCounterShape();
+         this.secondsColorArray = this.colorService.getColorsArryForSecondsCounterShape();
         this.backgroundColorArray = this.colorService.getColorsArryForBackground();
       })
     );
@@ -80,6 +86,50 @@ export class ClockComponent implements OnInit, OnDestroy {
         document.documentElement.style.setProperty('--spin-duration', `${speed}s`);
       })
     );
+    this.subscriptions.push(
+      this.displayService.stripeColor$.subscribe(color => {
+        this.stripeColor = color;
+      })
+    );
+    this.subscriptions.push(
+      this.displayService.stripeShadow$.subscribe(enabled => {
+        this.showStripeShadow = enabled;
+      })
+    );
+    this.subscriptions.push(
+      this.displayService.stripeLength$.subscribe(length => {
+        this.stripeLength = length;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.stripeInnerLength$.subscribe(length => {
+        this.innerLength = length;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.stripeWidth$.subscribe(width => {
+        this.stripeWidth = width;
+      })
+    );
+
+    this.subscriptions.push(
+      this.displayService.secondsCounter$.subscribe(visible => {
+        this.showSecondsCounter = visible;
+      })
+    );
+
+    this.subscriptions.push(
+      this.animationService.stripesSpinSpeed$.subscribe(speed => {
+        document.documentElement.style.setProperty('--stripes-spin-duration', `${speed}s`);
+      })
+    );
+    const stripesSpinSpeed = this.animationService.getStripesSpinSpeed();
+    document.documentElement.style.setProperty('--stripes-spin-duration', `${stripesSpinSpeed}s`);
+    this.stripeColor = this.displayService.getStripeColor();
+    this.stripeLength = this.displayService.getStripeLength();
+    this.innerLength = this.displayService.getStripeInnerLength();
     interval(1000).subscribe(() => {
       this.updateCurrentTime();
       this.setClockBackgroundColors();
@@ -143,6 +193,8 @@ export class ClockComponent implements OnInit, OnDestroy {
     if (this.fib34UsedForMinutes) this.minutesValues.push(34);
     if (this.fib34UsedForBoth) this.bothValues.push(34);
   }
+
+
 
   goToSettings() {
     this.settingsOverlayService.showSettings();

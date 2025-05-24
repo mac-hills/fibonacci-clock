@@ -1,0 +1,23 @@
+<svg
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+>
+  <defs>
+    <filter id="stripe-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0.5" dy="0.5" stdDeviation="0.5" flood-color="black" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Stripes -->
+  <line
+    *ngFor="let stripe of stripes"
+    [attr.x1]="stripe.x1"
+    [attr.y1]="stripe.y1"
+    [attr.x2]="stripe.x2"
+    [attr.y2]="stripe.y2"
+    [attr.stroke]="stripeColor"
+    [attr.stroke-width]="strokeWidth"
+    stroke-linecap="round"
+    [attr.filter]="showShadow ? 'url(#stripe-shadow)' : 'none'"
+  />
+</svg>

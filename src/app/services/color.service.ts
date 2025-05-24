@@ -44,6 +44,10 @@ export class ColorService {
     this.colors = { ...clockColors };
     this.saveColors();
     this.regenerateColorArrays();
+
+    // Reset stripe color too (if you store it in the colors object)
+    this.colors['stripeColor'] = '#ffffff';
+
     this.colorsSubject.next({...this.colors});
   }
   private regenerateColorArrays(): void {
