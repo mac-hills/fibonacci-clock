@@ -1,8 +1,9 @@
-<div class="app-container" [class.settings-hidden]="!settingsVisible">
-  <div class="settings-panel" *ngIf="settingsVisible">
+
+<div class="flex w-screen h-screen overflow-hidden" [class.settings-hidden]="!settingsVisible">
+  <div class="w-[38.2%] h-full overflow-y-auto bg-gray-100 border-r border-gray-300 shadow-md transition-transform duration-300" *ngIf="settingsVisible">
     <app-settings></app-settings>
   </div>
-  <div class="clock-panel" >
+  <div  class="w-[100%] h-full overflow-hidden transition-all duration-300" >
     <app-clock></app-clock>
   </div>
 </div>

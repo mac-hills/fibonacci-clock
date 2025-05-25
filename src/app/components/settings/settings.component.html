@@ -1,16 +1,32 @@
 <div class="settings-overlay" *ngIf="settingsOverlayService.visibility$ | async" (click)="closeOnBackdropClick($event)">
   <div class="settings-container">
-    <!-- Tab Menu -->
-    <div class="tab-menu">
-      <button [class.active]="activeTab === 'colorSettings'" (click)="setActiveTab('colorSettings')">
-        Color Settings
-      </button>
-      <button [class.active]="activeTab === 'displaySettings'" (click)="setActiveTab('displaySettings')">
-        Display Settings
-      </button>
-      <button [class.active]="activeTab === 'readingClock'" (click)="setActiveTab('readingClock')">
-        Reading the Clock
-      </button>
+    <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm ">
+      <div class="flex justify-center space-x-2 mb-0">
+        <button
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300"
+          [class.bg-green-500]="activeTab === 'colorSettings'"
+          [class.text-white]="activeTab === 'colorSettings'"
+          (click)="setActiveTab('colorSettings')"
+        >
+          Color Settings
+        </button>
+        <button
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300"
+          [class.bg-green-500]="activeTab === 'displaySettings'"
+          [class.text-white]="activeTab === 'displaySettings'"
+          (click)="setActiveTab('displaySettings')"
+        >
+          Display Settings
+        </button>
+        <button
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300"
+          [class.bg-green-500]="activeTab === 'readingClock'"
+          [class.text-white]="activeTab === 'readingClock'"
+          (click)="setActiveTab('readingClock')"
+        >
+          Reading the Clock
+        </button>
+      </div>
     </div>
 
     <!-- Tab Content -->
@@ -19,67 +35,94 @@
       <div *ngIf="activeTab === 'colorSettings'" class="color-settings-container">
         <!-- Time Display Colors -->
         <h3 class="settings-category-header">Time Display Colors</h3>
-        <div class="color-card" *ngFor="let color of timeColors">
-          <div class="color-label">{{ colorLabels[color.key] }}</div>
-          <div class="color-preview" [style.background-color]="clockColors[color.key]"></div>
-          <button class="select-color-btn">
+
+        <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm"
+             *ngFor="let color of timeColors">
+          <!-- Color Label -->
+          <div class="text-sm font-medium text-gray-700 flex-1">{{ colorLabels[color.key] }}</div>
+
+          <!-- Color Preview -->
+          <div class="w-8 h-8 rounded border border-gray-400" [style.background-color]="clockColors[color.key]"></div>
+
+          <!-- Select Color Button -->
+          <div class="relative ml-4">
+            <button
+              class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded hover:bg-gray-300">
+              Select Color
+            </button>
             <input
               type="color"
               [value]="clockColors[color.key]"
               (change)="onColorChange($event, color.key)"
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             >
-            Select Color
-          </button>
+          </div>
         </div>
+
 
         <!-- Seconds Counter Colors -->
         <h3 class="settings-category-header">Seconds Counter Colors</h3>
-        <div class="color-card" *ngFor="let color of secondsCounterColors">
-          <div class="color-label">{{ colorLabels[color.key] }}</div>
-          <div class="color-preview" [style.background-color]="clockColors[color.key]"></div>
-          <button class="select-color-btn">
-            <input
-              type="color"
-              [value]="clockColors[color.key]"
-              (change)="onColorChange($event, color.key)"
-            >
-            Select Color
-          </button>
+        <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm"
+             *ngFor="let color of secondsCounterColors">
+          <div class="text-sm font-medium text-gray-700 flex-1">{{ colorLabels[color.key] }}</div>
+          <div class="w-8 h-8 rounded border border-gray-400" [style.background-color]="clockColors[color.key]"></div>
+          <div class="relative ml-4">
+            <button
+              class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded hover:bg-gray-300">
+              <input
+                type="color"
+                [value]="clockColors[color.key]"
+                (change)="onColorChange($event, color.key)"
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              >
+              Select Color
+            </button>
+          </div>
         </div>
 
         <!-- Background Colors -->
         <h3 class="settings-category-header">Background Colors</h3>
-        <div class="color-card" *ngFor="let color of backgroundColors">
-          <div class="color-label">{{ colorLabels[color.key] }}</div>
-          <div class="color-preview" [style.background-color]="clockColors[color.key]"></div>
-          <button class="select-color-btn">
-            <input
-              type="color"
-              [value]="clockColors[color.key]"
-              (change)="onColorChange($event, color.key)"
-            >
-            Select Color
-          </button>
+        <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm"
+             *ngFor="let color of backgroundColors">
+          <div class="text-sm font-medium text-gray-700 flex-1">{{ colorLabels[color.key] }}</div>
+          <div class="w-8 h-8 rounded border border-gray-400" [style.background-color]="clockColors[color.key]"></div>
+          <div class="relative ml-4">
+            <button
+              class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded hover:bg-gray-300">
+              <input
+                type="color"
+                [value]="clockColors[color.key]"
+                (change)="onColorChange($event, color.key)"
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              >
+              Select Color
+            </button>
+          </div>
         </div>
 
         <!-- Stripe Color -->
         <h3 class="settings-category-header">Stripe Color</h3>
-        <div class="color-card">
-          <div class="color-label">Stripe Color</div>
-          <div class="color-preview" [style.background-color]="stripeColor"></div>
-          <button class="select-color-btn">
-            <input
-              type="color"
-              [value]="stripeColor"
-              (change)="updateStripeColor($event)"
-            >
-            Select Color
-          </button>
+        <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm">
+          <div class="text-sm font-medium text-gray-700 flex-1">Stripe Color</div>
+          <div class="w-8 h-8 rounded border border-gray-400" [style.background-color]="stripeColor"></div>
+          <div class="relative ml-4">
+            <button
+              class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded hover:bg-gray-300">
+              <input
+                type="color"
+                [value]="stripeColor"
+                (change)="updateStripeColor($event)"
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              >
+              Select Color
+            </button>
+          </div>
         </div>
 
-        <div class="actions">
-          <button (click)="resetColors()">Reset to Default</button>
-        </div>
+          <div class="actions">
+            <button (click)="resetColors()">Reset to Default</button>
+          </div>
+
       </div>
 
       <!-- Display Settings Tab -->
@@ -87,7 +130,7 @@
 
 
         <!-- Show Seconds Counter -->
-        <div class="color-card">
+        <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm">
           <div class="setting-content">
             <div class="setting-label">Show Seconds counter</div>
             <div class="setting-description">
@@ -104,7 +147,8 @@
         </div>
 
         <!-- Circle Rotation -->
-        <div class="color-card slider-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm slider-card">
           <div class="setting-content">
             <div class="setting-label">Circle Rotation</div>
             <div class="setting-description">
@@ -115,7 +159,7 @@
           <input
             type="range"
             id="spin-speed"
-            class="full-width-slider"
+            class="full-width-slider w-full h-2 rounded-lg bg-gray-200 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             min="1"
             max="3600"
             step="1"
@@ -124,7 +168,8 @@
         </div>
 
         <!-- Stripes Rotation Controls -->
-        <div class="color-card slider-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm  slider-card">
           <div class="setting-content">
             <div class="setting-label">Stripe Rotation</div>
             <div class="setting-description">
@@ -135,7 +180,7 @@
           <input
             type="range"
             id="stripes-spin-speed"
-            class="full-width-slider"
+            class="full-width-slider w-full h-2 rounded-lg bg-gray-200 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             min="1"
             max="3600"
             step="1"
@@ -144,7 +189,8 @@
         </div>
 
         <!-- Stripe Extension -->
-        <div class="color-card slider-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm  slider-card">
           <div class="setting-content">
             <div class="setting-label">Stripe Extension</div>
             <div class="setting-description">
@@ -155,7 +201,7 @@
           <input
             type="range"
             id="stripe-length"
-            class="full-width-slider"
+            class="full-width-slider w-full h-2 rounded-lg bg-gray-200 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             min="0.01"
             max="1"
             step="0.01"
@@ -164,7 +210,8 @@
         </div>
 
         <!-- Stripe Depth -->
-        <div class="color-card slider-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm  slider-card">
           <div class="setting-content">
             <div class="setting-label">Stripe Depth</div>
             <div class="setting-description">
@@ -175,7 +222,7 @@
           <input
             type="range"
             id="inner-length"
-            class="full-width-slider"
+            class="full-width-slider w-full h-2 rounded-lg bg-gray-200 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             min="0.01"
             max="1"
             step="0.01"
@@ -184,7 +231,8 @@
         </div>
 
         <!-- Stripe Thickness -->
-        <div class="color-card slider-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm  slider-card">
           <div class="setting-content">
             <div class="setting-label">Stripe Thickness</div>
             <div class="setting-description">
@@ -195,7 +243,7 @@
           <input
             type="range"
             id="stripe-width"
-            class="full-width-slider"
+            class="full-width-slider w-full h-2 rounded-lg bg-gray-200 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             min="0"
             max="4.2"
             step="0.01"
@@ -208,7 +256,8 @@
       <div *ngIf="activeTab === 'readingClock'">
 
 
-        <div class="color-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm ">
           <div class="setting-content">
             <div class="setting-label">Show Digital Time</div>
             <div class="setting-description">
@@ -224,7 +273,8 @@
           </label>
         </div>
 
-        <div class="color-card">
+        <div
+          class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm ">
           <div class="setting-content">
             <div class="setting-label">Show Calculation Panel</div>
             <div class="setting-description">
@@ -246,7 +296,7 @@
             The Fibonacci Clock is based on the mathematical sequence created by the
             Italian mathematician Fibonacci in the 13th century. Beginning with 1 and
             1, each subsequent number is the sum of the two preceding ones. The clock
-            uses the initial terms of this sequence: <strong>1, 1, 2, 3, 5, 8, 13, 21, and
+            uses the following terms of this sequence: <strong> 1, 2, 3, 5, 8, 13, 21, and
             34</strong>.
           </p>
         </div>

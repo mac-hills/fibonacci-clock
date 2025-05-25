@@ -61,19 +61,19 @@
 }
 
 /*Digital clock representation*/
-.digital-time {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  font-size: 24px;
-  font-family: monospace;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  z-index: 100;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-}
+/*.digital-time {*/
+/*  position: fixed;*/
+/*  top: 15px;*/
+/*  left: 15px;*/
+/*  font-size: 24px;*/
+/*  font-family: monospace;*/
+/*  background-color: rgba(0, 0, 0, 0.5);*/
+/*  color: white;*/
+/*  padding: 5px 10px;*/
+/*  border-radius: 5px;*/
+/*  z-index: 100;*/
+/*  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);*/
+/*}*/
 
 @keyframes spin {
   from {

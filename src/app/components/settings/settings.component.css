@@ -1,23 +1,8 @@
-/* Color and setting card styling */
-.color-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-/* Slider card styling */
 .slider-card {
   flex-direction: column;
   align-items: flex-start;
 }
-/* Text alignment in slider cards */
+
 .slider-card .setting-label {
   text-align: left;
   width: 100%;
@@ -34,42 +19,34 @@
   margin-bottom: 10px;
 }
 
-/* Value display styling */
 .setting-value {
   font-size: 14px;
   font-weight: bold;
   color: #4CAF50;
   align-self: flex-end;
-  margin-left: auto; /* Push to right */
+  margin-left: auto;
   text-align: right;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-/* Enhanced slider styling with gradient and transparency */
+
 .full-width-slider {
-  width: calc(100% - 10px);
-  margin: 15px 5px 5px 5px;
-  height: 8px;
-  border-radius: 8px;
   position: relative;
-  background: transparent; /* Make base transparent */
-  appearance: none;
+    appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
   overflow: visible;
 }
 
-/* Slider track for Webkit browsers (Chrome, Safari, Edge) */
 .full-width-slider::-webkit-slider-runnable-track {
   width: 100%;
   height: 8px;
   border-radius: 8px;
-  background-color: rgba(240, 240, 240, 0.6); /* Translucent background */
+  background-color: rgba(240, 240, 240, 0.6);
   box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Slider track for Firefox */
 .full-width-slider::-moz-range-track {
   width: 100%;
   height: 8px;
@@ -79,13 +56,12 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Create the colored gradient fill */
 .full-width-slider::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--slider-fill, 50%); /* Default fill at 50% */
+  width: var(--slider-fill, 50%);
   height: 8px;
   border-radius: 8px 0 0 8px;
   background: linear-gradient(to right, #4285f4, #34a853);
@@ -93,13 +69,12 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Globe-like thumb for Webkit */
 .full-width-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   position: relative;
   width: 20px;
   height: 20px;
-  margin-top: -6px; /* Center thumb vertically */
+  margin-top: -6px;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, white, #f0f0f0);
   cursor: pointer;
@@ -108,7 +83,6 @@
   z-index: 2;
 }
 
-/* Globe-like thumb for Firefox */
 .full-width-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
@@ -120,7 +94,6 @@
   z-index: 2;
 }
 
-/* Hover effects */
 .full-width-slider:hover::-webkit-slider-thumb {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), 0 0 3px 2px rgba(255, 255, 255, 0.4);
   transform: scale(1.05);
@@ -131,7 +104,6 @@
   transform: scale(1.05);
 }
 
-/* Active state effects */
 .full-width-slider:active::-webkit-slider-thumb {
   background: radial-gradient(circle at 30% 30%, white, #e6e6e6);
   transform: scale(1.1);
@@ -142,7 +114,6 @@
   transform: scale(1.1);
 }
 
-/* Setting content styling */
 .setting-content {
   flex: 1;
 }
@@ -159,7 +130,6 @@
   color: #666;
 }
 
-/* Square color preview */
 .color-preview {
   width: 30px;
   height: 30px;
@@ -177,7 +147,6 @@
   margin-top: 5px;
 }
 
-/* Toggle switch styling - made similar to the color button */
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -192,7 +161,6 @@
   height: 0;
 }
 
-/* Enhanced track with depth */
 .toggle-switch .slider {
   position: absolute;
   cursor: pointer;
@@ -208,7 +176,6 @@
   background-image: linear-gradient(to bottom, #d8d8d8, #e8e8e8);
 }
 
-/* Globe-like switch button */
 .toggle-switch .slider:before {
   position: absolute;
   content: "";
@@ -223,26 +190,22 @@
   border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-/* Active state - track */
 .toggle-switch input:checked + .slider {
   background-color: #4CAF50;
   background-image: linear-gradient(to bottom, #439a46, #4CAF50);
   box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
-/* Active state - globe button */
 .toggle-switch input:checked + .slider:before {
   transform: translateX(26px);
   background: radial-gradient(circle at 70% 30%, white, #f0f0f0);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 2px 1px rgba(255, 255, 255, 0.3);
 }
 
-/* Hover effects */
 .toggle-switch:hover .slider:before {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), 0 0 3px 2px rgba(255, 255, 255, 0.4);
 }
 
-/* Add reflection to create globe effect */
 .toggle-switch .slider:before::after {
   content: "";
   position: absolute;
@@ -255,62 +218,6 @@
   pointer-events: none;
 }
 
-/* Select color button styling */
-
-.color-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 15px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.color-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  flex: 1;
-}
-
-.color-preview {
-  width: 42px;
-  height: 24px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  margin-right: 10px;
-}
-
-.select-color-btn {
-  position: relative;
-  padding: 5px 10px;
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.select-color-btn:hover {
-  background-color: #e8e8e8;
-}
-
-.select-color-btn input[type="color"] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-
-
 .settings-category-header {
   font-size: 18px;
   font-weight: bold;
@@ -320,7 +227,6 @@
   padding-bottom: 5px;
 }
 
-/* Info containers for Reading Clock tab */
 .info-container {
   padding: 15px;
   background-color: #f9f9f9;
@@ -330,7 +236,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Enhanced Tab styling */
 .tab-menu {
   display: flex;
   justify-content: center;
@@ -339,12 +244,6 @@
 
 
 .tab-menu button {
-  padding: 10px 20px;
-  margin: 0 5px;
-  background-color: #e0e0e0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   transition: all 0.2s ease;
@@ -381,11 +280,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Enhanced Reset button */
 .actions {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+  justify-content: space-evenly;
 }
 
 .actions button {
