@@ -1,26 +1,26 @@
-<div class="clock-window" (click)="goToSettings()">
+<div class="relative flex items-center justify-center overflow-hidden w-full h-full" (click)="goToSettings()">
   <!-- digital time section -->
   <div class="fixed top-4 left-4 text-2xl font-mono bg-black bg-opacity-50 text-white px-3 py-1.5 rounded-md z-50 shadow-md" *ngIf="showDigitalTime">
     {{ currentHour | number:'2.0-0' }}:{{ currentMinutes | number:'2.0-0' }}:{{ currentSeconds | number:'2.0-0' }}
   </div>
 
   <!-- clock section -->
-  <div class="clock-container" >
-    <div class="fib-shapes container" id="fib34" [ngStyle]="{'background-color': fib34BackgroundColor}">
+  <div class="relative h-[98vh] aspect-square flex items-center justify-center -left-1.5">
+    <div class="fib-circle" id="fib34" [ngStyle]="{'background-color': fib34BackgroundColor}">
       <app-striped-circle [numStripes]="34" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-      <div class="fib-shapes container" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
+      <div class="fib-circle" id="fib21" [ngStyle]="{'background-color': fib21BackgroundColor}">
         <app-striped-circle [numStripes]="21" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-        <div class="fib-shapes container" id="fib13" [ngStyle]="{'background-color': fib13BackgroundColor}">
+        <div class="fib-circle" id="fib13" [ngStyle]="{'background-color': fib13BackgroundColor}">
           <app-striped-circle [numStripes]="13" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-          <div class="fib-shapes container" id="fib8" [ngStyle]="{'background-color': fib8BackgroundColor}">
+          <div class="fib-circle" id="fib8" [ngStyle]="{'background-color': fib8BackgroundColor}">
             <app-striped-circle [numStripes]="8" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-            <div class="fib-shapes container" id="fib5" [ngStyle]="{'background-color': fib5BackgroundColor}">
+            <div class="fib-circle" id="fib5" [ngStyle]="{'background-color': fib5BackgroundColor}">
               <app-striped-circle [numStripes]="5" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-              <div class="fib-shapes container" id="fib3" [ngStyle]="{'background-color': fib3BackgroundColor}">
+              <div class="fib-circle" id="fib3" [ngStyle]="{'background-color': fib3BackgroundColor}">
                 <app-striped-circle [numStripes]="3" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-                <div class="fib-shapes container" id="fib2" [ngStyle]="{'background-color': fib2BackgroundColor}">
+                <div class="fib-circle" id="fib2" [ngStyle]="{'background-color': fib2BackgroundColor}">
                   <app-striped-circle [numStripes]="2" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
-                  <div class="fib-shapes container" id="fib1" [ngStyle]="{'background-color': fib1BackgroundColor}">
+                  <div class="fib-circle" id="fib1" [ngStyle]="{'background-color': fib1BackgroundColor}">
                     <app-striped-circle [numStripes]="1" [circleRadius]="50" [stripeColor]="stripeColor" [stripeLength]="stripeLength" [innerLength]="innerLength" [strokeWidth]="stripeWidth" [showShadow]="showStripeShadow"></app-striped-circle>
                   </div>
                 </div>
@@ -30,17 +30,19 @@
         </div>
       </div>
 
-      <div  *ngIf="showSecondsCounter"  class="fib-shapes container" id="fibsec" [style.background-color]="secondsColor"></div>
+      <div *ngIf="showSecondsCounter" class="fib-circle" id="fibsec" [style.background-color]="secondsColor"></div>
     </div>
   </div>
 
   <!-- calculation panel section -->
-  <div *ngIf="showCalculationPanel" class="calculation-panel">
-    <h3>How the Clock Works</h3>
+  <div *ngIf="showCalculationPanel" class="fixed bottom-4 right-4 bg-black/70 text-white p-4 rounded-lg font-mono shadow-lg z-50 min-w-[280px] backdrop-blur-sm">
+    <h3 class="mt-0 text-center mb-4 text-lg">How the Clock Works</h3>
 
-    <div class="calculation-group">
-      <h4 [style.background-color]="colorWhenUsedForHours">Hours Only</h4>
-      <div class="calculation">
+    <div class="mb-3">
+      <h4 class="m-0 mb-1 py-1.5 px-2.5 rounded text-sm inline-block shadow-sm" [style.background-color]="colorWhenUsedForHours">
+        Hours Only
+      </h4>
+      <div class="pl-2.5 text-sm">
         <ng-container *ngIf="hoursValues.length > 0; else noHours">
           {{ formatValues(hoursValues) }} = {{ calculateSum(hoursValues) }}
         </ng-container>
@@ -48,9 +50,11 @@
       </div>
     </div>
 
-    <div class="calculation-group">
-      <h4 [style.background-color]="colorWhenUsedForMinutes">Minutes Only</h4>
-      <div class="calculation">
+    <div class="mb-3">
+      <h4 class="m-0 mb-1 py-1.5 px-2.5 rounded text-sm inline-block shadow-sm" [style.background-color]="colorWhenUsedForMinutes">
+        Minutes Only
+      </h4>
+      <div class="pl-2.5 text-sm">
         <ng-container *ngIf="minutesValues.length > 0; else noMinutes">
           {{ formatValues(minutesValues) }} = {{ calculateSum(minutesValues) }}
         </ng-container>
@@ -58,9 +62,11 @@
       </div>
     </div>
 
-    <div class="calculation-group">
-      <h4 [style.background-color]="colorWhenUsedForHoursAndMinutes">Hours & Minutes</h4>
-      <div class="calculation">
+    <div class="mb-3">
+      <h4 class="m-0 mb-1 py-1.5 px-2.5 rounded text-sm inline-block shadow-sm" [style.background-color]="colorWhenUsedForHoursAndMinutes">
+        Hours & Minutes
+      </h4>
+      <div class="pl-2.5 text-sm">
         <ng-container *ngIf="bothValues.length > 0; else noBoth">
           {{ formatValues(bothValues) }} = {{ calculateSum(bothValues) }}
         </ng-container>
@@ -68,25 +74,21 @@
       </div>
     </div>
 
-    <div class="calculation-results">
-      <div class="result-row">
+    <div class="mt-4 pt-2.5 border-t border-white/30">
+      <div class="flex justify-between mb-1 font-bold text-sm">
         <span>Total Hours:</span>
-        <span class="result">
-        {{ formatValues(combineArrays(hoursValues, bothValues)) }} =
+        <span class="text-right">
+          {{ formatValues(combineArrays(hoursValues, bothValues)) }} =
           {{ calculateSum(combineArrays(hoursValues, bothValues)) }}
-      </span>
+        </span>
       </div>
-      <div class="result-row">
+      <div class="flex justify-between mb-1 font-bold text-sm">
         <span>Total Minutes:</span>
-        <span class="result">
-        {{ formatValues(combineArrays(minutesValues, bothValues)) }} =
+        <span class="text-right">
+          {{ formatValues(combineArrays(minutesValues, bothValues)) }} =
           {{ calculateSum(combineArrays(minutesValues, bothValues)) }}
-      </span>
+        </span>
       </div>
     </div>
   </div>
-
-
 </div>
-
-
