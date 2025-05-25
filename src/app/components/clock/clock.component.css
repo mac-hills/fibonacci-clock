@@ -80,11 +80,9 @@ body {
   position: absolute;
   top: calc(60% - 40vh);
   left: calc(60% - 40vh);
-  width: calc(3/50*100%);
-  height: calc(3/50*100%);
+  width: calc(3/42*100%);
+  height: calc(3/42*100%);
   border-radius: 50%;
-  z-index: 2;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9),
-  0 0 3px rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.6) inset;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
 }
