@@ -1,7 +1,6 @@
 <div class="h-full overflow-y-auto" *ngIf="settingsOverlayService.visibility$ | async" (click)="closeOnBackdropClick($event)">
   <div class="bg-white p-4 h-full overflow-y-auto font-mono">
-    <div class="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-md mb-4 shadow-sm">
-      <div class="flex justify-center space-x-2 mb-0">
+      <div class="flex flex-col sm:flex-row sm:space-x-2 w-full mb-2 sm:mb-0">
         <button
           class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300 transition-colors"
           [class.bg-green-500]="activeTab === 'colorSettings'"
@@ -27,7 +26,6 @@
           Reading the Clock
         </button>
       </div>
-    </div>
 
     <!-- Tab Content -->
     <div class="mt-2 p-5 bg-white rounded-lg">
@@ -127,7 +125,7 @@
           <div class="flex-1">
             <div class="text-base font-medium text-gray-800 mb-0.5">Show Seconds counter</div>
             <div class="text-sm text-gray-600">
-              Show or hide the seconds counter circle that changes color every second
+              Toggle the seconds counter circle.
             </div>
           </div>
           <label class="toggle-switch">
@@ -246,7 +244,7 @@
           <div class="flex-1">
             <div class="text-base font-bold   text-gray-800 mb-0.5">Show Digital Time</div>
             <div class="text-sm text-gray-600">
-              Show or hide the digital time display in the top-left corner of the clock
+              Toggle the digital time display.
             </div>
           </div>
           <label class="toggle-switch">
@@ -262,7 +260,7 @@
           <div class="flex-1">
             <div class="text-base font-bold   text-gray-800 mb-0.5">Show Calculation Panel</div>
             <div class="text-sm text-gray-600">
-              Show or hide a panel that explains how the current time is calculated using Fibonacci numbers
+              Toggle calculation panel visibility.
             </div>
           </div>
           <label class="toggle-switch">
