@@ -16,10 +16,10 @@ body {
 }
 
 .fib-circle {
-  @apply rounded-full box-border w-full h-full shadow-xl relative  ;
-  margin: 6%;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.6) inset;
-  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
+  @apply rounded-full box-border w-full aspect-square h-full shadow-xl relative  ;
+  margin: 7%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5), 0 0 5px rgba(0, 0, 0, 0.6) inset;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.4));
 }
 
 #fib34 {
@@ -83,6 +83,6 @@ body {
   width: calc(3/42*100%);
   height: calc(3/42*100%);
   border-radius: 50%;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.6) inset;
-  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.6) inset;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.4));
 }
